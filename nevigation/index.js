@@ -11,7 +11,7 @@ import {
   } from '@react-navigation/drawer'; 
 import {Login, Registration,GetstartedPage,OnboardingOne,OnboardingTwo,OnboardingThree,
     Forgotpassword,Otpverified,Profile,Contactus,Enquery,Aboutus,Categories,EcommorceCollection,
-    FashionCollection,ConfirmNumber,Checkout,Home,PaymentSuccess,Payment,FashionDetails,Changepassword} from '../screens';
+    FashionCollection,ConfirmNumber,Checkout,Home,PaymentSuccess,Payment,FashionDetails,Changepassword,Vendordetails} from '../screens';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS, SIZES } from "../constants/theme";
@@ -418,7 +418,32 @@ const Index = (navigation) => {
                             />
                             
                         ),
-                    })} name="About" component={Aboutus} />   
+                    })} name="About" component={Aboutus} /> 
+                    <Drawer.Screen options={({ navigation, route }) => ({
+                         
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
+                        headerTitle: 'Vendor details',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                            <AntDesign
+                                style={styles.menuButtom}
+                                color={COLORS.white}
+                                onPress={() => navigation.goBack()}
+                                name="arrowleft"
+                                size={26}
+                            />
+                            
+                        ),
+                    })} name="Vendordetails" component={Vendordetails} />     
                      <Drawer.Screen options={({ navigation, route }) => ({
                           drawerIcon: ({tintColor}) =>
                           (

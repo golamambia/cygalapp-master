@@ -20,6 +20,7 @@ import PaymentSuccess from "./PaymentSuccess";
 import Payment from "./Payment";
 import FashionDetails from "./FashionDetails";
 import Changepassword from "./Changepassword";
+import Vendordetails from "./Vendordetails";
 export {
 
     Login,
@@ -44,6 +45,7 @@ export {
     Payment,
     FashionDetails,
     Changepassword,
+    Vendordetails
    
     
 }

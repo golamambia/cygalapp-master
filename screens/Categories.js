@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
-import { useNavigation } from '@react-navigation/native';
+
 const Categories = ({ navigation }) => {
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
@@ -16,7 +16,7 @@ const Categories = ({ navigation }) => {
     let content1 = [];
     useEffect(async () => {
    
-        //console.log(1);
+       // console.log(1);
        const unsubscribe = navigation.addListener('focus', () => {
            demo();
          
@@ -28,13 +28,14 @@ const Categories = ({ navigation }) => {
    const demo=(async () => {
        const tokn =await  AsyncStorage.getItem('token');
        if (tokn !== null) {
-           //console.log(tokn);
+           console.log(tokn);
            //this.setState({ token:tokn }) 
            settoken(tokn);
           
        }
        if(tokn){
-   fetch(Hosturl.api+'get-vendors', {
+       }
+   fetch(Hosturl.api+'get-shoptype', {
        method: 'POST',
        body: JSON.stringify({
          slug: '',
@@ -45,7 +46,7 @@ const Categories = ({ navigation }) => {
          //Header Defination
          'Accept': 'application/json',
          'Content-Type':'application/json',
-         'Authorization' :  'Bearer  '+token
+        // 'Authorization' :  'Bearer  '+token
        },
      })
        .then((response) => response.json())
@@ -77,7 +78,7 @@ const Categories = ({ navigation }) => {
        .catch((error) => {
 
        });
-   }
+   
    });
    function gotoCategories() {
    navigation.navigate('EcommorceCollection', {
@@ -118,13 +119,18 @@ const Categories = ({ navigation }) => {
 
        {categorylist.map((value, index) => (
            <View style={styles.catleftbox}>
-               <TouchableOpacity onPress={() => navigation.navigate('EcommorceCollection', {
+               <TouchableOpacity onPress={() => navigation.navigate('FashionCollection', {
     vendorId: value.id,
 
   })}>
             <View style={styles.catboxcenter}>
-            <Image  source={require("../assets/images/startupicon.png")} />
-            <Text style={styles.catboxtext}>{value.store_name}</Text>
+                <View style={styles.catimgbox}>
+            <Image  source={{
+    uri: Imgurl.path+value.image,
+   
+  }} style={styles.img}/>
+  </View>
+            <Text style={styles.catboxtext}>{value.name}</Text>
             <Image  source={require("../assets/images/doublearrowicon.png")} />
             </View>
             </TouchableOpacity>
@@ -169,10 +175,11 @@ const styles = StyleSheet.create({
        paddingVertical:20,
        paddingTop:20
     },
+    catimgbox:{width:46,height:46},
 imgbox:{
     height:186,alignItems:'center'
 },
-img:{width:'100%',resizeMode:'cover'},
+img:{width:'100%',height:'100%',resizeMode:'cover'},
 sort_refine:{flexDirection:'row',alignItems:'center',marginBottom:15},
 sort_refinebox:{flex:1,borderWidth:0.5},
 sorttext:{textAlign:'center',paddingVertical:10,fontSize:16,color:'#000'},
