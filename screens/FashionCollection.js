@@ -8,7 +8,8 @@ import BottonCommon from '../component/BottonCommon'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
 
-const FashionCollection = ({route, navigation }) => {
+const FashionCollection = ({navigation, route}) => {
+    const [loading, setLoading] = useState(false);
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
     const [token, settoken] = useState("");
@@ -17,7 +18,13 @@ const FashionCollection = ({route, navigation }) => {
     const { vendorId } = route.params;
     
     useEffect(async () => {
-   
+        if(JSON.stringify(vendorId)){
+    
+            //const shop_type =JSON.stringify(vendorId);
+            setshop_type(JSON.stringify(vendorId));
+            }else{
+                setshop_type('');
+            }
         //console.log(1);
        const unsubscribe = navigation.addListener('focus', () => {
            demo();
@@ -28,6 +35,7 @@ const FashionCollection = ({route, navigation }) => {
     
     },[]);
     const demo=(async () => {
+        setLoading(true);
         const tokn =await  AsyncStorage.getItem('token');
         if (tokn !== null) {
             //console.log(tokn);
@@ -35,18 +43,14 @@ const FashionCollection = ({route, navigation }) => {
             settoken(tokn);
            
         }
-        if(JSON.stringify(vendorId)){
-    
-            //const shop_type =JSON.stringify(vendorId);
-            setshop_type(JSON.stringify(vendorId));
-            }
+        
         if( token){
         }
-           // console.log(token);
+           //console.log(shop_type);
             fetch(Hosturl.api+'get-vendors', {
                 method: 'POST',
                    body: JSON.stringify({
-                    shop_type: '',
+                    shop_type: shop_type,
                     
                     
                    }),
@@ -60,8 +64,8 @@ const FashionCollection = ({route, navigation }) => {
                 .then((response) => response.json())
                 .then((responseJson) => {
                   //Hide Loader
-                  //setLoading(false);
-                  console.log(responseJson.response_data);
+                  setLoading(false);
+                 // console.log(responseJson.response_data);
                   
                    if (responseJson.status) {
                     setvendorlist(responseJson.response_data);
@@ -81,7 +85,7 @@ const FashionCollection = ({route, navigation }) => {
                 backgroundColor="transparent"
                 translucent={true}
             />
-          
+           <Loader loading={loading} />
           <View style={styles.profile_body}>
           <ScrollView  showsVerticalScrollIndicator={false}>
             <View >
@@ -111,7 +115,7 @@ const FashionCollection = ({route, navigation }) => {
     {/* <Image style={styles.fashionimg} source={{uri: 'https://reactjs.org/logo-og.png'}} /> */}
     </View>
     </View>
-    <Text style={styles.logotitle}>{value.site_title}</Text>
+    <Text style={styles.logotitle}>{value.site_title} </Text>
 </View>
 <View style={styles.ltboxtitle}>
     
@@ -122,8 +126,11 @@ const FashionCollection = ({route, navigation }) => {
 
 ))}
 
+{!vendorlist ? (
+  <>
 
-
+  <Text>No record found</Text>
+  </>): null}
         </View>
    
 

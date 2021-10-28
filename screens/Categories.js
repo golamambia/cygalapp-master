@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
 
 const Categories = ({ navigation }) => {
+    const [loading, setLoading] = useState(false);
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
     const [token, settoken] = useState("");
@@ -26,6 +27,10 @@ const Categories = ({ navigation }) => {
     
     });
    const demo=(async () => {
+       if(!categorylist){
+       // setLoading(true);
+       }
+    
        const tokn =await  AsyncStorage.getItem('token');
        if (tokn !== null) {
            console.log(tokn);
@@ -52,7 +57,7 @@ const Categories = ({ navigation }) => {
        .then((response) => response.json())
        .then((responseJson) => {
          //Hide Loader
-         //setLoading(false);
+         setLoading(false);
         // console.log(responseJson.response_data);
          
           if (responseJson.status) {
@@ -93,7 +98,7 @@ const Categories = ({ navigation }) => {
                 backgroundColor="transparent"
                 translucent={true}
             />
-          
+          <Loader loading={loading} />
           <View style={styles.profile_body}>
           
      
@@ -137,6 +142,8 @@ const Categories = ({ navigation }) => {
            </View>
            
            ))}
+
+           
 
        </View>
 

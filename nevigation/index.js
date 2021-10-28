@@ -149,8 +149,10 @@ const Index = (navigation) => {
    // console.log(1);
     //setLoading(true);
     let get_strtpage = await AsyncStorage.getItem('get_strtpage');
-    setget_strtpage(get_strtpage);
-
+    
+    if(get_strtpage=='yse'){
+      setget_strtpage(get_strtpage);
+    }
     const value = await AsyncStorage.getItem('user_id').then(
       (value) =>
       // Setting the value in Text
@@ -195,7 +197,7 @@ const Index = (navigation) => {
           routeName !== 'fourthScreenStack' &&  routeName !== 'fourthScreenStack5';
         },
         ),
-        routes: props.state.routes.filter((route)  => route.name !== 'fourthScreenStack5' && route.name !== 'fourthScreenStack5'
+        routes: props.state.routes.filter((route)  => route.name !== 'fourthScreenStack5' 
         ),
       },
     };
@@ -296,7 +298,29 @@ const Index = (navigation) => {
                         headerTintColor: COLORS.black,
                        
                         headerTitleStyle: { fontSize: 20,fontWeight:'500',},
-                    
+                        headerLeft: () => (
+                          
+                          <Material
+                              style={styles.menuButtom}
+                              color={COLORS.black}
+                              onPress={async() => {
+                                navigation.toggleDrawer();
+                                
+                               
+                                await AsyncStorage.getItem('get_strtpage').then(
+                                  (value) =>
+                                  // Setting the value in Text
+                                
+                                  setget_strtpage(get_strtpage),
+                                );
+                                AsyncStorage.setItem('get_strtpage', 'yes');
+                                setget_strtpage('yes');
+                              }}
+                              name="menu"
+                              size={24}
+                          />
+                          
+                      ),
                         headerRight: () => <View style={styles.customersRightMenu}>
                        
                        <View style={styles.download}><CartVariant size={SIZES.h2} color={'#000'} /></View>
@@ -309,6 +333,79 @@ const Index = (navigation) => {
         <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null,}} name="OnboardingTwo" component={OnboardingTwo} />
                 <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null}} name="OnboardingThree" component={OnboardingThree} />
                 <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null}} name="fourthScreenStack4" component={fourthScreenStack4} />
+                <Drawer.Screen options={({ navigation, route }) => ({
+            drawerIcon: ({tintColor}) =>
+            (
+              <AntDesign name="user" style={{marginRight:-22,marginLeft:5}} color='#fff' width={20}  size={20}/>
+              
+        
+            ),
+                        headerTitle: 'Login',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                        headerLeft: () => (
+                          
+                          <Material
+                              style={styles.menuButtom}
+                              color={COLORS.black}
+                              onPress={async() => {
+                                navigation.toggleDrawer();
+                                
+                               
+                                await AsyncStorage.getItem('get_strtpage').then(
+                                  (value) =>
+                                  // Setting the value in Text
+                                
+                                  setget_strtpage(get_strtpage),
+                                );
+                                AsyncStorage.setItem('get_strtpage', 'yes');
+                                setget_strtpage('yes');
+                              }}
+                              name="menu"
+                              size={24}
+                          />
+                          
+                      ),
+                    })}
+                    
+                    name="Login" component={Login}  />
+        <Drawer.Screen  name="Registration" component={Registration} options={({ navigation, route }) => ({
+             drawerIcon: ({tintColor}) =>
+             (
+               <AntDesign name="user" style={{marginRight:-22,marginLeft:5}} color='#fff' width={20}  size={20}/>
+               
+         
+             ),
+                        headerTitle: 'Register',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                        headerLeft: () => (
+                          
+                          <Material
+                              style={styles.menuButtom}
+                              color={COLORS.black}
+                              onPress={async() => {
+                                navigation.toggleDrawer();
+                                
+                               
+                                await AsyncStorage.getItem('get_strtpage').then(
+                                  (value) =>
+                                  // Setting the value in Text
+                                
+                                  setget_strtpage(get_strtpage),
+                                );
+                                AsyncStorage.setItem('get_strtpage', 'yes');
+                                setget_strtpage('yes');
+                              }}
+                              name="menu"
+                              size={24}
+                          />
+                          
+                      ),
+                    })} />
+ 
   </> ) :(<>
    
         <Drawer.Screen  name="Home" component={Home} options={({ navigation, route }) => ({
@@ -695,7 +792,7 @@ const Index = (navigation) => {
                                 size={26}
                             />
                         ),
-                    })} name="FashionCollection" component={FashionCollection} /> 
+                    })} name="FashionCollection" component={FashionCollection} initialParams={{ vendorId: null }}/> 
                     <Drawer.Screen options={({ navigation, route }) => ({
                        drawerIcon: ({tintColor}) =>
                        (

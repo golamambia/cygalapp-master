@@ -52,7 +52,7 @@ const OnboardingThree = ({ navigation }) => {
 
                     <View style={styles.flewThree} >
                         <View style={{paddingVertical:5}}>
-        <TouchableOpacity  onPress={logProcess} style={styles.flexthreeTouch}>
+        <TouchableOpacity  onPress={loginProcess} style={styles.flexthreeTouch}>
             <Text style={styles.flexthreeTouchtext} >LOGIN</Text>
         </TouchableOpacity>
         </View>
