@@ -4,10 +4,13 @@ import { Alert,View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Im
     import { COLORS, SIZES, FONTS,Hosturl,Imgurl } from '../constants/theme';
 // import Squery from '../component/icons/square'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import BottonCommon from '../component/BottonCommon'
+import BottonCommon from '../component/BottonCommon';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
 import { useNavigation } from '@react-navigation/native';
+import Swiper from 'react-native-swiper';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons';
+import CommonBottom from '../component/CommonBottom';
 
 const Aboutus = ({ navigation }) => {
     const [token, settoken] = useState("");
@@ -78,7 +81,7 @@ const Aboutus = ({ navigation }) => {
     }
     });
     const gotoCategories=(async () => {
-    navigation.navigate('Categories');
+        navigation.navigate('Profile')
 });
 const gotoCollection=(async () => {
     navigation.navigate('EcommorceCollection');
@@ -93,8 +96,14 @@ const gotoCollection=(async () => {
             />
           
           <View style={styles.profile_body}>
+
+          
+
+              
           <ScrollView showsVerticalScrollIndicator={false}  >
             <View >
+            
+           
                 <View style={styles.imgbox}>
                 {/* <Image style={styles.img} source={{uri: img }} /> */}
                 <Image style={styles.img} source={require("../assets/images/about2.png")} />
@@ -146,6 +155,10 @@ const gotoCollection=(async () => {
 
             </View>
             </ScrollView>
+
+       
+
+
               </View>
            
           
@@ -223,7 +236,30 @@ imgdiscount:{
     marginRight:10,
     height:185,
   
-}
-
+},
+wrapper: {},
+  slide1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB'
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5'
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9'
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold'
+  }
   
 })

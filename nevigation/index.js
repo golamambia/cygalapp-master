@@ -11,7 +11,8 @@ import {
   } from '@react-navigation/drawer'; 
 import {Login, Registration,GetstartedPage,OnboardingOne,OnboardingTwo,OnboardingThree,
     Forgotpassword,Otpverified,Profile,Contactus,Enquery,Aboutus,Categories,EcommorceCollection,
-    FashionCollection,ConfirmNumber,Checkout,Home,PaymentSuccess,Payment,FashionDetails,Changepassword,Vendordetails} from '../screens';
+    FashionCollection,ConfirmNumber,Checkout,Home,PaymentSuccess,Payment,FashionDetails,Changepassword,Vendordetails,
+  Cart} from '../screens';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS, SIZES } from "../constants/theme";
@@ -32,9 +33,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { useFocusEffect } from "@react-navigation/native";
 import{ AuthContext } from '../component/context';
 import NavigationDrawerHeader from '../component/NavigationDrawerHeader';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-
+const Tab = createBottomTabNavigator();
 
 const fourthScreenStack = ({navigation}) => {
     return (
@@ -76,9 +79,9 @@ const fourthScreenStack = ({navigation}) => {
       </Stack.Navigator>
     );
   };
-  const ProfileandChangepassword = () => {
+  const profileandChangepassword = () => {
     return (
-      <Stack.Navigator initialRouteName="Profile" openByDefault>
+      <Stack.Navigator initialRouteName="Profile" openByDefault screenOptions={{ headerMode:"float",}}>
         <Stack.Screen options={({ navigation, route }) => ({
                  drawerLabelStyle:{
                     paddingLeft:8,
@@ -90,7 +93,7 @@ const fourthScreenStack = ({navigation}) => {
                   <AntDesign
                       style={styles.menuButtom}
                       color={COLORS.white}
-                      onPress={() => alert(1)}
+                      onPress={() => navigation.goBack()}
                       name="arrowleft"
                       size={26}
                   />
@@ -115,7 +118,7 @@ const fourthScreenStack = ({navigation}) => {
                   <AntDesign
                       style={styles.menuButtom}
                       color={COLORS.white}
-                      onPress={() => alert(1)}
+                      onPress={() => navigation.goBack()}
                       name="arrowleft"
                       size={26}
                   />
@@ -131,8 +134,444 @@ const fourthScreenStack = ({navigation}) => {
       </Stack.Navigator>
     );
   };
-  
+  const homeScreenStack1 = ({navigation}) => {
+    return (
+      <Stack.Navigator initialRouteName="Home" 
+      screenOptions={{ headerMode:"float",}}>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            drawerLabelStyle:{
+               paddingLeft:8,
+               fontSize:15,
+               fontWeight:SIZES.regular
+           },
+         //   headerLeft: () => (
+         //     <TouchableOpacity
+         // onPress={() => navigation.goBack()}
+         // >
+         //     <AntDesign
+         //         style={styles.menuButtom}
+         //         color={COLORS.white}
+         //         onPress={() => alert(1)}
+         //         name="arrowleft"
+         //         size={26}
+         //     />
+         //     </TouchableOpacity>
+         // ),
+          }}
+        />
+       
+      </Stack.Navigator>
+    );
+  };
+  const Shop = ({navigation}) => {
+    return (
+      <Stack.Navigator  screenOptions={{ headerMode:"float",}}>
+        <Stack.Screen options={{
+                 drawerLabelStyle:{
+                    paddingLeft:8,
+                    fontSize:15,
+                    fontWeight:SIZES.regular
+                },
+                headerLeft: () => (
+                  <TouchableOpacity
+             
+              >
+                  <AntDesign
+                      style={[styles.menuButtom,{zIndex:100}]}
+                      color={COLORS.white}
+                      onPress={() => navigation.goBack()}
+                      name="arrowleft"
+                      size={26}
+                  />
+                  </TouchableOpacity>
+              ),
+              // headerLeft: () => (
+              //   <NavigationDrawerHeader navigationProps={navigation} />
+              // ),
+                        headerTitle: 'Fashion Collection',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                       
+                      
+                    }} name="FashionCollection" component={FashionCollection}  />
+        <Stack.Screen options={({ navigation, route }) => ({
+                         
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
+                        headerTitle: 'Vendor details',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                  
+                          <AntDesign
+                              style={styles.menuButtom}
+                              color={COLORS.white}
+                              onPress={() => navigation.goBack()}
+                              name="arrowleft"
+                              size={26}
+                          />
+                          
+                      ),
+                    })} name="Vendordetails" component={Vendordetails} /> 
+                     <Stack.Screen options={({ navigation, route }) => ({
+                         
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
+                        headerTitle: 'Product details',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                  
+                          <AntDesign
+                              style={styles.menuButtom}
+                              color={COLORS.white}
+                              onPress={() => navigation.goBack()}
+                              name="arrowleft"
+                              size={26}
+                          />
+                          
+                      ),
+                    })} name="FashionDetails" component={FashionDetails} /> 
+                    <Stack.Screen
+          name="Categories"
+          component={Categories}
+          options={{
+            headerTitle: 'Categories',
+            headerTitleAlign: 'center',
+            headerTransparent: true,
+            headerTintColor: COLORS.white,
+           
+            headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+            headerLeft: () => (
+              <TouchableOpacity
+         
+          >
+              <AntDesign
+                  style={[styles.menuButtom]}
+                  color={COLORS.white}
+                  onPress={() => navigation.goBack()}
+                  name="arrowleft"
+                  size={26}
+              />
+              </TouchableOpacity>
+          ),
+         
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
+  const cartStack = ({navigation}) => {
+    return (
+      <Stack.Navigator initialRouteName="Cart" screenOptions={{ headerMode:"float",}}>
+        <Stack.Screen options={{
+          
+                 drawerLabelStyle:{
+                    paddingLeft:8,
+                    fontSize:15,
+                    fontWeight:SIZES.regular
+                },
+                headerLeft: () => (
+                  <TouchableOpacity
+             
+              >
+                  <AntDesign
+                      style={[styles.menuButtom]}
+                      color={COLORS.white}
+                      onPress={() => navigation.goBack()}
+                      name="arrowleft"
+                      size={26}
+                  />
+                  </TouchableOpacity>
+              ),
+             
+                        headerTitle: 'My Cart',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                       
+                      
+                    }} name="Cart" component={Cart}  />
+        <Stack.Screen options={({ navigation, route }) => ({
+          // headerMode:"float",
+                        
+                         
+                        headerTitle: 'Checkout',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                  
+                          <AntDesign
+                              style={styles.menuButtom}
+                              color={COLORS.white}
+                              onPress={() => navigation.goBack()}
+                              name="arrowleft"
+                              size={26}
+                          />
+                          
+                      ),
+                       
+                    })} name="Checkout" component={Checkout} /> 
+                     <Stack.Screen options={({ navigation, route }) => ({
+                         
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
+                        headerTitle: 'Payment',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                  
+                          <AntDesign
+                              style={styles.menuButtom}
+                              color={COLORS.white}
+                              onPress={() => navigation.goBack()}
+                              name="arrowleft"
+                              size={26}
+                          />
+                          
+                      ),
+                    })} name="Payment" component={Payment} /> 
+                    <Stack.Screen options={({ navigation, route }) => ({
+                         
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
+                        headerTitle: 'Payment Successful',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                  
+                          <AntDesign
+                              style={styles.menuButtom}
+                              color={COLORS.white}
+                              onPress={() => navigation.goBack()}
+                              name="arrowleft"
+                              size={26}
+                          />
+                          
+                      ),
+                    })} name="PaymentSuccess" component={PaymentSuccess} /> 
+                    
+      </Stack.Navigator>
+    );
+  };
+  const categoryStack = ({navigation}) => {
+    return (
+      <Stack.Navigator initialRouteName="Categories" 
+      screenOptions={{ headerMode:"float",}}>
+        <Stack.Screen
+          name="Categories"
+          component={Categories}
+          options={{
+            headerTitle: 'Categories',
+            headerTitleAlign: 'center',
+            headerTransparent: true,
+            headerTintColor: COLORS.white,
+           
+            headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+            headerLeft: () => (
+              <TouchableOpacity
+         
+          >
+              <AntDesign
+                  style={[styles.menuButtom]}
+                  color={COLORS.white}
+                  onPress={() => navigation.goBack()}
+                  name="arrowleft"
+                  size={26}
+              />
+              </TouchableOpacity>
+          ),
+         
+          }}
+        />
+       
+      </Stack.Navigator>
+    );
+  };
 
+  const BottomTabStack = () => {
+    return (
+      <Tab.Navigator
+     
+        initialRouteName="Home"
+        tabBarOptions={{
+          
+          activeTintColor: COLORS.cyan,
+          inactiveTintColor: 'gray',
+          style: {
+           //marginTop:20,
+            backgroundColor: '#e0e0e0',
+           
+            
+          },
+          labelStyle: {
+            textAlign: 'center',
+            fontSize: 14,
+            marginBottom:5,
+            
+          },
+          tabStyle: {
+marginTop:3
+          },
+          headerShown: false,
+          
+        }} 
+        
+         >
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+            headerLeft: null,
+            style: {
+           
+              marginTop:0
+            },
+            
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ color, size }) => (
+              <Material
+                name="home"
+                color={color}
+                size={size}
+              />
+            ),
+            
+          }} screenOptions={{ headerShown: false ,headerLeft: null,}}
+        />
+        <Tab.Screen
+          name="Payment"
+          component={Payment}
+          options={{
+            tabBarLabel: 'Search',
+            tabBarIcon: ({ color, size }) => (
+              <Material
+                name="magnify"
+                color={color}
+                size={size}
+              />
+            ),
+            headerShown: false
+          }}
+        />
+        <Tab.Screen
+          name="cartStack"
+          component={cartStack}
+          options={{
+            headerShown: false,
+            headerLeft: null,
+            title:'kkjkj',
+            tabBarLabel: 'Cart',
+            tabBarIcon: ({ color, size }) => (
+              <Material
+                name="cart"
+                color={color}
+                size={size}
+              />
+            ),
+           
+          }}
+          screenOptions={{
+            headerShown:false,
+            headerLeft: null,
+          }}
+          
+        />
+        <Tab.Screen
+          name="Login"
+          component={Login}
+          options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({ color, size }) => (
+              <Material
+                name="account"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    );
+  };
+  const HomeScreenStack = ({navigation}) => {
+    return (
+      <Stack.Navigator screenOptions={{headerShown:false,}}>
+        <Stack.Screen
+          name="BottomTabStack"
+          component={BottomTabStack}
+          options={({route}) => ({
+            
+            headerShown:false
+          })}
+        />
+        
+      </Stack.Navigator>
+    );
+  };
+  
+  const SettingScreenStack = ({navigation}) => {
+    return (
+      <Stack.Navigator
+        initialRouteName="Aboutus"
+        screenOptions={{
+         
+          headerStyle: {
+            backgroundColor: '#f4511e', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }}>
+        <Stack.Screen
+          name="Aboutus"
+          component={Aboutus}
+          options={{
+            title: 'Setting', //Set Header Title
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
 const Index = (navigation) => {
   
   //const { signOut, toggleTheme } = React.useContext(AuthContext);
@@ -149,10 +588,10 @@ const Index = (navigation) => {
    // console.log(1);
     //setLoading(true);
     let get_strtpage = await AsyncStorage.getItem('get_strtpage');
-    
-    if(get_strtpage=='yse'){
-      setget_strtpage(get_strtpage);
-    }
+    setget_strtpage(get_strtpage);
+    // if(get_strtpage=='yse'){
+     
+    // }
     const value = await AsyncStorage.getItem('user_id').then(
       (value) =>
       // Setting the value in Text
@@ -171,7 +610,7 @@ const Index = (navigation) => {
         <NavigationContainer>
            
             <Drawer.Navigator  screenOptions={{
-              
+              headerMode:"float",
               swipeEnabled: false,
                 drawerActiveTintColor:COLORS.white,
                 drawerActiveBackgroundColor:'#3ebfc4',
@@ -188,6 +627,7 @@ const Index = (navigation) => {
     
     },
   }}
+  // screenOptions={{headerShown: false}}
   drawerContent={props => {
     const filteredProps = {
       ...props,
@@ -197,7 +637,7 @@ const Index = (navigation) => {
           routeName !== 'fourthScreenStack' &&  routeName !== 'fourthScreenStack5';
         },
         ),
-        routes: props.state.routes.filter((route)  => route.name !== 'fourthScreenStack5' 
+        routes: props.state.routes.filter((route)  => route.name !== 'fourthScreenStack' && route.name !== 'fourthScreenStack5' 
         ),
       },
     };
@@ -226,8 +666,8 @@ const Index = (navigation) => {
         style={{marginLeft:0,marginBottom:30,marginTop:30}} 
         
       /> 
-        <DrawerItemList {...filteredProps} style={{borderBottomColor: 'red',
-    borderBottomWidth: 2,}}/>
+        <DrawerItemList {...filteredProps} style={ get_strtpage=='yes' ? {borderBottomColor: 'red',
+    borderBottomWidth: 2,} : {borderBottomColor: COLORS.cyan,}}/>
        
         </View>
         {get_sessionuser ? (
@@ -293,7 +733,7 @@ const Index = (navigation) => {
 
     ),
     
-                        headerTitleAlign: 'center',
+                        headerTitleAlign: 'center', 
                         headerTransparent: true,
                         headerTintColor: COLORS.black,
                        
@@ -328,12 +768,9 @@ const Index = (navigation) => {
                     </View>
                     })} />
                       
-
-            <Drawer.Screen options={{ headerShown: false,swipeEnabled: false, drawerLabel: () => null,}} name="OnboardingOne" component={OnboardingOne} />
-        <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null,}} name="OnboardingTwo" component={OnboardingTwo} />
-                <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null}} name="OnboardingThree" component={OnboardingThree} />
-                <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null}} name="fourthScreenStack4" component={fourthScreenStack4} />
-                <Drawer.Screen options={({ navigation, route }) => ({
+            
+            
+           <Drawer.Screen options={({ navigation, route }) => ({
             drawerIcon: ({tintColor}) =>
             (
               <AntDesign name="user" style={{marginRight:-22,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -405,12 +842,17 @@ const Index = (navigation) => {
                           
                       ),
                     })} />
+                    <Drawer.Screen options={{ headerShown: false,swipeEnabled: false, drawerLabel: () => null,}} name="OnboardingOne" component={OnboardingOne} />
+                    <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null,}} name="OnboardingTwo" component={OnboardingTwo} />
+                <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null}} name="OnboardingThree" component={OnboardingThree} />
+                <Drawer.Screen options={{ headerShown: false,swipeEnabled: false,drawerLabel: () => null}} name="fourthScreenStack4" component={fourthScreenStack4} />
+             
  
   </> ) :(<>
    
         <Drawer.Screen  name="Home" component={Home} options={({ navigation, route }) => ({
           
-          
+          drawerLabel: 'Home',
                         headerTitle:  (
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}> 
                             <Image source={require("../assets/images/homelogo.png")} /></View>
@@ -424,7 +866,7 @@ const Index = (navigation) => {
       
 
     ),
-    
+    headerTitle: 'Home',
                         headerTitleAlign: 'center',
                         headerTransparent: true,
                         headerTintColor: COLORS.black,
@@ -458,7 +900,12 @@ const Index = (navigation) => {
                        <View style={styles.download}><CartVariant size={SIZES.h2} color={'#000'} /></View>
                         
                     </View>
-                    })} />
+                    })}  />
+                              {/* <Drawer.Screen
+          name="BottomTabStack"
+          options={{drawerLabel: 'Home Screen Option'}}
+          component={BottomTabStack}
+        /> */}
      {/* <Drawer.Screen name="NotificationsAndDetails" component={NotificationsAndDetails} /> */}
                      {!get_sessionuser ? (
   <>
@@ -492,7 +939,7 @@ const Index = (navigation) => {
 
                       </>)}
                      <Drawer.Screen options={({ navigation, route }) => ({
-                         
+                         drawerLabel:"About us",
                          drawerIcon: ({tintColor}) =>
                          (
                            <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -515,32 +962,8 @@ const Index = (navigation) => {
                             />
                             
                         ),
-                    })} name="About" component={Aboutus} /> 
-                    <Drawer.Screen options={({ navigation, route }) => ({
-                         
-                         drawerIcon: ({tintColor}) =>
-                         (
-                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
-                           
-                     
-                         ),
-                        headerTitle: 'Vendor details',
-                        headerTitleAlign: 'center',
-                        headerTransparent: true,
-                        headerTintColor: COLORS.white,
-                       
-                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
-                        headerLeft: () => (
-                            <AntDesign
-                                style={styles.menuButtom}
-                                color={COLORS.white}
-                                onPress={() => navigation.goBack()}
-                                name="arrowleft"
-                                size={26}
-                            />
-                            
-                        ),
-                    })} name="Vendordetails" component={Vendordetails} />     
+                    })} name="Aboutus" component={Aboutus}  /> 
+                        
                      <Drawer.Screen options={({ navigation, route }) => ({
                           drawerIcon: ({tintColor}) =>
                           (
@@ -652,7 +1075,12 @@ const Index = (navigation) => {
                   />
                   
               ),
-                    })} name="My Profile" component={ProfileandChangepassword} />
+                    })} name="profileandChangepassword" component={profileandChangepassword} options={{headerShown: false,drawerLabel: 'My Profile',drawerIcon: ({tintColor}) =>
+                    (
+                      <Material name="account" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                      
+                
+                    ),}}/>
 
                     </>): null}
                     <Drawer.Screen options={({ navigation, route }) => ({
@@ -668,7 +1096,8 @@ const Index = (navigation) => {
                             fontWeight:SIZES.regular,
                             
                         },
-                        headerTitle: 'Enquery',
+                        drawerLabel:'Inquery',
+                        headerTitle: 'Inquery',
                         headerTitleAlign: 'center',
                         headerTransparent: true,
                         headerTintColor: COLORS.white,
@@ -685,7 +1114,7 @@ const Index = (navigation) => {
                       ),
                     })} name="Enquery" component={Enquery} /> 
                    
-                   <Drawer.Screen options={({ navigation, route }) => ({
+                   {/* <Drawer.Screen options={({ navigation, route }) => ({
                          drawerIcon: ({tintColor}) =>
                          (
                            <AntDesign name="creditcard" style={{marginRight:-22,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -713,7 +1142,7 @@ const Index = (navigation) => {
                         <View style={styles.download}><CartVariant size={SIZES.h2}  color={COLORS.white} /></View>
                          
                      </View>
-                    })} name="Payment" component={Payment} />
+                    })} name="Payment" component={Payment} /> */}
                <Drawer.Screen options={({ navigation, route }) => ({
                    drawerIcon: ({tintColor}) =>
                    (
@@ -721,6 +1150,7 @@ const Index = (navigation) => {
                      
                
                    ),
+                   drawerLabel: 'Categories',
                         headerTitle: 'Categories',
                         headerTitleAlign: 'center',
                         headerTransparent: true,
@@ -736,7 +1166,12 @@ const Index = (navigation) => {
                                 size={26}
                             />
                         ),
-                    })} name="Categories" component={Categories} /> 
+                    })} name="categoryStack" component={categoryStack} options={{headerShown: false,drawerLabel: 'Categories',drawerIcon: ({tintColor}) =>
+                    (
+                      <Material name="table" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                      
+                
+                    ),}}/> 
                     <Drawer.Screen options={({ navigation, route }) => ({
                        drawerIcon: ({tintColor}) =>
                        (
@@ -744,6 +1179,7 @@ const Index = (navigation) => {
                          
                    
                        ),
+                       drawerLabel: 'E-commorce Collection',
                          drawerLabelStyle:{
                             paddingLeft:6,
                             fontSize:15,
@@ -777,7 +1213,66 @@ const Index = (navigation) => {
                             fontSize:15,
                             fontWeight:SIZES.regular
                         },
-                        headerTitle: 'Fashion Collection',
+                         headerTitle: '',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        // headerLeft: () => (
+                        //     <AntDesign
+                        //         style={styles.menuButtom}
+                        //         color={COLORS.white}
+                        //         onPress={() => navigation.goBack(null)}
+                        //         name="arrowleft"
+                        //         size={26}
+                        //     />
+                        // ),
+                    })} name="Shop" component={Shop}  options={{headerShown: false,drawerLabel: 'Shop',drawerIcon: ({tintColor}) =>
+                    (
+                      <Material name="shopping" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                      
+                
+                    ),}} /> 
+                            {/* <Drawer.Screen options={({ navigation, route }) => ({
+                         
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
+                        headerTitle: 'Vendor details',
+                        headerTitleAlign: 'center',
+                        headerTransparent: true,
+                        headerTintColor: COLORS.white,
+                       
+                        headerTitleStyle: { fontSize: 20,fontWeight:'500',},
+                        headerLeft: () => (
+                            <AntDesign
+                                style={styles.menuButtom}
+                                color={COLORS.white}
+                                onPress={() => navigation.goBack()}
+                                name="arrowleft"
+                                size={26}
+                            />
+                            
+                        ),
+                    })} name="Vendordetails" component={Vendordetails} />  */}
+                    <Drawer.Screen options={({ navigation, route }) => ({
+                       drawerIcon: ({tintColor}) =>
+                       (
+                         <Material name="cart" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                         
+                   
+                       ),
+                       drawerLabel: 'Cart',
+                         drawerLabelStyle:{
+                            paddingLeft:6,
+                            fontSize:15,
+                            fontWeight:SIZES.regular
+                        },
+                        headerTitle: 'My Cart',
                         headerTitleAlign: 'center',
                         headerTransparent: true,
                         headerTintColor: COLORS.white,
@@ -792,8 +1287,18 @@ const Index = (navigation) => {
                                 size={26}
                             />
                         ),
-                    })} name="FashionCollection" component={FashionCollection} initialParams={{ vendorId: null }}/> 
-                    <Drawer.Screen options={({ navigation, route }) => ({
+                        headerRight: () => <View style={styles.customersRightMenu}>
+                       
+                        <View style={styles.download}><CartVariant size={SIZES.h2}  color={COLORS.white} /></View>
+                         
+                     </View>
+                    })} name="cartStack" component={cartStack} options={{headerShown: false,drawerLabel: 'Cart',drawerIcon: ({tintColor}) =>
+                    (
+                      <Material name="cart" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                      
+                
+                    ),}} /> 
+                    {/* <Drawer.Screen options={({ navigation, route }) => ({
                        drawerIcon: ({tintColor}) =>
                        (
                          <Material name="cart" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -825,9 +1330,9 @@ const Index = (navigation) => {
                         <View style={styles.download}><CartVariant size={SIZES.h2}  color={COLORS.white} /></View>
                          
                      </View>
-                    })} name="Checkout" component={Checkout} /> 
+                    })} name="Checkout" component={Checkout} />  */}
                
-                    <Drawer.Screen options={({ navigation, route }) => ({
+                    {/* <Drawer.Screen options={({ navigation, route }) => ({
                        drawerIcon: ({tintColor}) =>
                        (
                          <Material name="details" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -855,8 +1360,8 @@ const Index = (navigation) => {
                             />
                         ),
                         
-                    })} name="FashionDetails" component={FashionDetails} />
-                       <Drawer.Screen options={({ navigation, route }) => ({
+                    })} name="FashionDetails" component={FashionDetails} /> */}
+                       {/* <Drawer.Screen options={({ navigation, route }) => ({
                          drawerIcon: ({tintColor}) =>
                          (
                            <Material name="check-outline" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -888,7 +1393,7 @@ const Index = (navigation) => {
                         <View style={styles.download}><CartVariant size={SIZES.h2}  color={COLORS.white} /></View>
                          
                      </View>
-                    })} name="Payment Success" component={PaymentSuccess} />
+                    })} name="Payment Success" component={PaymentSuccess} /> */}
                      {get_sessionuser ? (
   <>
                     {/* <Drawer.Screen options={({ navigation, route }) => ({

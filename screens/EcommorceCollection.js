@@ -13,7 +13,7 @@ const EcommorceCollection = ({route, navigation }) => {
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
     const [token, settoken] = useState("");
-    const { vendorId } = route.params;
+    const { vendorId } = route.params?.vendorId ?? 0;
 
     useEffect(async () => {
    

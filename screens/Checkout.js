@@ -7,6 +7,7 @@ import { COLORS, SIZES, FONTS } from '../constants/theme'
 import BottonCommon from '../component/BottonCommon'
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const Checkout = ({ navigation }) => {
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
@@ -16,7 +17,15 @@ const Checkout = ({ navigation }) => {
                 backgroundColor="transparent"
                 translucent={true}
             />
-          
+          {/* <View style={{position:'absolute',top:10,left:15}}>
+          <AntDesign
+                                style={styles.menuButtom}
+                                color={COLORS.white}
+                                onPress={() => navigation.goBack()}
+                                name="arrowleft"
+                                size={26}
+                            />
+          </View> */}
           <View style={styles.profile_body}>
           <ScrollView  showsVerticalScrollIndicator={false}>
 <View style={{marginTop:25}}>
@@ -31,7 +40,11 @@ const Checkout = ({ navigation }) => {
 <Image style={styles.img} source={require("../assets/images/crazylogo.png")} />
 
 </View>
-<Text style={styles.itemtext}>Collections let you customise your shop</Text>
+<TouchableOpacity  onPress={() => navigation.goBack()}>
+<Text>Goback</Text>
+
+      </TouchableOpacity>
+<Text style={styles.itemtext}>Collections let you customise your shop </Text>
 <Text style={styles.pricetitle}>$300/<Text style={styles.percentcolor}>20%</Text></Text>
 <View style={styles.delicon}>
     <TouchableOpacity>
@@ -72,7 +85,9 @@ const Checkout = ({ navigation }) => {
 </View>
 
     </View>
-<TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.navigate('cartStack', {
+                   screen:'Payment',
+  })}>
     <View style={styles.paybutton}>
         <Text style={styles.paybuttontext}>Proceed to payment</Text>
     </View>

@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
+import CommonBottom from '../component/CommonBottom';
 
 const FashionCollection = ({navigation, route}) => {
     const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const FashionCollection = ({navigation, route}) => {
     const [token, settoken] = useState("");
     const [shop_type, setshop_type] = useState("");
     const [vendorlist, setvendorlist] = useState([]);
-    const { vendorId } = route.params;
+    const { vendorId } = route.params?.vendorId ?? 0;
     
     useEffect(async () => {
         if(JSON.stringify(vendorId)){
@@ -95,9 +96,9 @@ const FashionCollection = ({navigation, route}) => {
 
         {vendorlist.map((value, index) => (
 <View style={styles.latestfashionbox}>
-<TouchableOpacity onPress={() => navigation.navigate('Vendordetails', {
-    vendorId: value.id,
-
+<TouchableOpacity onPress={() => navigation.navigate('Shop', {
+    screen:'Vendordetails',
+    params: { vendorId: value.id },
   })}>
 <View style={styles.imgdiscount}> 
 <Image style={styles.fashionimgnw}  source={{
@@ -136,6 +137,8 @@ const FashionCollection = ({navigation, route}) => {
 
             </View>
             </ScrollView>
+
+            <CommonBottom />
               </View>
            
           
@@ -165,7 +168,8 @@ const styles = StyleSheet.create({
        borderTopRightRadius:50,
        paddingHorizontal:20,
        paddingVertical:20,
-       paddingTop:20
+       paddingTop:20,
+       paddingBottom:55
     },
     fashionbox:{
 position:'relative',

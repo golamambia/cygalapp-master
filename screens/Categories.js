@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
+import CommonBottom from '../component/CommonBottom';
 
 const Categories = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
@@ -124,8 +125,10 @@ const Categories = ({ navigation }) => {
 
        {categorylist.map((value, index) => (
            <View style={styles.catleftbox}>
-               <TouchableOpacity onPress={() => navigation.navigate('FashionCollection', {
-    vendorId: value.id,
+               <TouchableOpacity onPress={() => navigation.navigate('Shop', {
+                   screen:'FashionCollection',
+                   params: { vendorId: value.id },
+    
 
   })}>
             <View style={styles.catboxcenter}>
@@ -151,6 +154,9 @@ const Categories = ({ navigation }) => {
 
             </View>
             </ScrollView>
+
+            <CommonBottom />
+
             </View>
            
           
@@ -180,7 +186,8 @@ const styles = StyleSheet.create({
        borderTopRightRadius:50,
        paddingHorizontal:20,
        paddingVertical:20,
-       paddingTop:20
+       paddingTop:20,
+       paddingBottom:55
     },
     catimgbox:{width:46,height:46},
 imgbox:{

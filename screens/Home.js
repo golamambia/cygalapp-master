@@ -9,6 +9,8 @@ import BottonCommon from '../component/BottonCommon'
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import{ AuthContext } from '../component/context';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons';
+import CommonBottom from '../component/CommonBottom';
 
 const Home = ({ navigation }) => {
     useEffect(async () => {
@@ -32,6 +34,11 @@ const Home = ({ navigation }) => {
     const context = useContext(AuthContext);
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
+    const handleSubmitPress = () => {
+       navigation.navigate('Login');
+   
+             
+          };
     return (
         <View style={styles.profile_bodyarea}>
             <StatusBar
@@ -252,10 +259,11 @@ const Home = ({ navigation }) => {
         </View>
 
             </ScrollView>
-              </View>
-           
-          
+     
         </View>
+        <CommonBottom />
+        </View>
+        
     );
 };
 
@@ -266,7 +274,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor:'#fff',
-               
+         
     },
     input: {
         height: 46,
@@ -296,7 +304,8 @@ const styles = StyleSheet.create({
     //    borderTopRightRadius:50,
        paddingHorizontal:20,
        paddingVertical:20,
-       paddingTop:20
+       paddingTop:20,
+       paddingBottom:55
     },
     fashionbox:{
 position:'relative',

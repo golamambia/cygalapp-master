@@ -58,6 +58,10 @@ const Payment = ({ navigation }) => {
 
 
 <View >
+<TouchableOpacity  onPress={() => navigation.goBack()}>
+<Text>Goback</Text>
+
+      </TouchableOpacity>
 <Text style={{color:COLORS.black,fontSize:16,fontWeight:SIZES.medium,textTransform:'uppercase',marginBottom:20,marginTop:10}}>Payment Summery</Text>
 <View style={styles.prow}>
     <View><Text style={styles.ptitle}>Product Price</Text></View>
@@ -83,7 +87,9 @@ const Payment = ({ navigation }) => {
 <Text style={{fontSize:20,fontWeight:SIZES.medium,color:COLORS.black,marginTop:30}}>$ 285</Text>
         </View>
         <View style={{flex:1}}>
-<TouchableOpacity>
+<TouchableOpacity onPress={() => navigation.navigate('cartStack', {
+                   screen:'PaymentSuccess',
+  })}>
     <View style={styles.paybutton}>
         <Text style={styles.paybuttontext}>Pay now</Text>
     </View>

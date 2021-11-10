@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
 import { useNavigation } from '@react-navigation/native';
 //import {Changepassword} from '../screens/Changepassword';
+import CommonBottom from '../component/CommonBottom';
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -263,7 +264,9 @@ class Profile extends Component {
         <TouchableOpacity  style={styles.flexthreeTouchtwo} onPress={() => this.postProfile()}>
             <Text style={styles.flexthreeTouchtext} >Save Details</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.flexthreeTouch} onPress={() =>this.props.navigation.navigate('Changepassword')}>
+        <TouchableOpacity style={styles.flexthreeTouch}  onPress={() => this.props.navigation.navigate('profileandChangepassword', {
+    screen:'Changepassword',
+})}>
             <Text style={styles.Touchtext} >Change password</Text>
         </TouchableOpacity>
        
@@ -272,6 +275,7 @@ class Profile extends Component {
         </KeyboardAvoidingView>
             </View>
             </ScrollView>
+            <CommonBottom />
               </View>
              
              
@@ -301,6 +305,7 @@ const styles = StyleSheet.create({
        height:'85%',
        borderTopRightRadius:70,
        paddingTop:20,
+       paddingBottom:55
        
     },
 

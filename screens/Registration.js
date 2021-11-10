@@ -227,6 +227,7 @@ const Registration = ({ navigation }) => {
                       
                          <View  style={styles.input2}>
               <Picker 
+              mode="dropdown"
         selectedValue={selectedValue}
         style={{ height: 58, width: '100%',color:'#ffffff',}}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}

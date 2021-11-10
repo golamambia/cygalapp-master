@@ -8,6 +8,7 @@ import BottonCommon from '../component/BottonCommon'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
 import { TabView, SceneMap } from 'react-native-tab-view';
+import CommonBottom from '../component/CommonBottom';
 
 const FirstRoute = () => (
     <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
@@ -28,7 +29,9 @@ const Vendordetails = ({route, navigation }) => {
     const [shop_type, setshop_type] = useState("");
     const [vendordata, setvendordata] = useState();
     const [tabval, settabval] = useState(1);
-    const { vendorId } = route.params;
+    const [productlist, setproductlist] = useState([]);
+    const { vendorId } = route.params?.vendorId ?? 0;
+    const [bodydesc, setbodydesc] = useState("");
 
    
 
@@ -85,7 +88,9 @@ const Vendordetails = ({route, navigation }) => {
                   
                    if (responseJson.status) {
                     setvendordata(responseJson.vendor);
-                
+                    setproductlist(responseJson.response_data.data);
+                    let dbody=  responseJson.vendor.about_store.replace( /(<([^>]+)>)/gi, '');
+                    setbodydesc(dbody);
                    } 
                  
                 })
@@ -146,7 +151,7 @@ const Vendordetails = ({route, navigation }) => {
 <View>
 <Text style={styles.desctitle2}>{vendordata?.store_name}</Text>
     <Text style={styles.desctitle}>Description</Text>
-    <Text style={styles.describetext}>{vendordata?.about_store} </Text>
+    <Text style={styles.describetext}>{bodydesc} </Text>
 <View style={{marginTop:5}}>
    <Text style={styles.weblinktext}><Image  source={require("../assets/images/webicon.png")} />  <TouchableOpacity onPress={() => Linking.openURL('https://www.csglobalmall/crazydealz.com')}><Text style={{color: 'blue'}} >https://www.csglobalmall/crazydealz.com</Text></TouchableOpacity></Text>
 </View>
@@ -225,8 +230,57 @@ const Vendordetails = ({route, navigation }) => {
 </ScrollView>
 {/* <View style={{borderWidth:.5,marginTop:12,borderColor:'#e5e5e5',width:'100%',paddingLeft:-20}}></View> */}
     </View>
+    {tabval==1 &&
+    <View style={{marginTop:20,flexDirection:'row',flexWrap:'wrap'}}>
+   
+   {productlist.map((value, index) => (
+       value.is_feature==1 &&
+    <View style={styles.tabinnerbox}>
+        <TouchableOpacity  onPress={() => navigation.navigate('Shop', {
+                   screen:'FashionDetails',
+                   params: { vendorId: value.id,slug: value.slug,  },
+    
 
-    {tabval>0 &&
+  })} >
+    <View style={styles.tabinnerimgbox}>
+<Image style={styles.imgpro} source={{
+    uri: Imgurl.path+value.image,
+   
+  }} />
+
+</View>
+</TouchableOpacity>
+</View>
+))}
+</View>
+}
+
+{tabval==2 &&
+    <View style={{marginTop:20,flexDirection:'row',flexWrap:'wrap'}}>
+   
+   {productlist.map((value, index) => (
+      value.is_feature!=1 &&
+        
+    <View style={styles.tabinnerbox}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionDetails', {
+    vendorId: value.user_id,
+    slug: value.slug,
+  })}>
+    <View style={styles.tabinnerimgbox}>
+<Image style={styles.imgpro} source={{
+    uri: Imgurl.path+value.image,
+   
+  }} />
+
+</View>
+</TouchableOpacity>
+</View>
+       
+       
+))}
+</View>
+}
+    {tabval>2 &&
     <View style={{marginTop:20,flexDirection:'row',flexWrap:'wrap'}}>
    
     
@@ -277,7 +331,7 @@ const Vendordetails = ({route, navigation }) => {
 
 </ScrollView> 
         
-
+<CommonBottom />
 
               </View>
            
@@ -310,8 +364,10 @@ const styles = StyleSheet.create({
         borderTopRightRadius:50,
         paddingHorizontal:20,
         
-        paddingTop:20
+        paddingTop:20,
+        paddingBottom:55
      },
+     imgpro:{width:'100%',resizeMode:'cover',height:'100%'},
     img:{width:'100%',resizeMode:'cover'},
     imgnw:{width:'100%',height:'100%',resizeMode:'cover',},
     img2:{width:'100%',resizeMode:'cover',borderRadius:80/2},

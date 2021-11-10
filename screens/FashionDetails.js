@@ -1,16 +1,101 @@
-import React, { useState }  from 'react';
-import { View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Image, TouchableHighlight ,
-    TouchableOpacity,KeyboardAvoidingView,ScrollView,SafeAreaView,} from 'react-native';
-import { COLORS, SIZES, FONTS } from '../constants/theme'
+import React, { useState ,useEffect,createRef,Component}  from 'react';
+import { Alert,View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Image, TouchableHighlight ,
+    TouchableOpacity,KeyboardAvoidingView,ScrollView,Keyboard} from 'react-native';
+    import { COLORS, SIZES, FONTS,Hosturl } from '../constants/theme';
 // import Squery from '../component/icons/square'
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
-import {Picker} from '@react-native-community/picker';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loader from '../component/Loader';
+import {useRoute} from '@react-navigation/native';
 import { Linking } from 'react-native';
-const FashionDetails = ({ navigation }) => {
-    const [isSelected, setSelection] = useState(false);
-    const [selectedValue, setSelectedValue] = useState("java");
+import Swiper from 'react-native-swiper';
+import CommonBottom from '../component/CommonBottom';
+
+class FashionDetails extends Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            token:'',
+          loading: false,
+          value: true,
+          visible: false,
+          userId: 0,
+          vendorId: this.props.route.params.vendorId,
+          slug: this.props.route.params.slug,
+          details:'',
+          pbody:'',
+         
+         
+         
+        };
+      //  const { navigation } = this.props;
+      }
+      async  componentDidMount()
+      {
+       // let userId = this.props.route.params.userId; 
+        //this.setState({ userId:userId }) 
+        // const route = useRoute();
+        // const params= route.params.productId;
+        // console.log(params);
+        const tokn =await  AsyncStorage.getItem('token');
+        if (tokn !== null) {
+            //console.log(tokn);
+            this.setState({ token:tokn }) 
+           
+        }
+        const value = await AsyncStorage.getItem('user_id');
+    if (value !== null) {
+        this.setState({ userId:value }) 
+       //console.log(value);
+       //setuserid(value);
+    }else{
+       // this.props.navigation.navigate('Home');
+    }
+    if(this.state.vendorId && this.state.slug){
+        this.getData();
+    }
+      }
+      getData() {
+        //console.log(231);
+    
+       fetch(Hosturl.api+'get-product-details?vendor_id='+this.state.vendorId+'&slug='+this.state.slug, {
+          method: 'GET',
+        //   body: JSON.stringify({
+        //     vendor_id: this.state.userId,
+        //     slug: this.state.userId,
+        //   }),
+          headers: {
+            //Header Defination
+            'Accept': 'application/json',
+            'Content-Type':'application/json',
+            //'Authorization' :  'Bearer  '+this.state.token
+          },
+        })
+          .then((response) => response.json())
+          .then((responseJson) => {
+            //Hide Loader
+            //setLoading(false);
+            console.log(responseJson);
+            
+             if (responseJson.status) {
+            
+                this.setState({ details:responseJson.response_data });
+                let dbody=  responseJson.response_data.description.replace( /(<([^>]+)>)/gi, '');
+                this.setState({ pbody:dbody});
+            //   //console.log(responseJson);
+           // setuserdata(responseJson.response_data)
+             } 
+           
+          })
+          .catch((error) => {
+            //Hide Loader
+            //setLoading(false);
+            //console.error(error);
+          });
+      }
+      render() {
     return (
         <View style={styles.profile_bodyarea}>
        
@@ -21,27 +106,34 @@ const FashionDetails = ({ navigation }) => {
             />
             
             
-          <View style={styles.imgbox}>
+   
+
+<Swiper  showsButtons={false} dotColor="#fff" activeDotColor={COLORS.cyan} paginationStyle={{ position: "absolute", top: 0, bottom: 25,color:'red'}} autoplay={true}>
+<View style={styles.imgbox}>
 <Image style={styles.img} source={require("../assets/images/fashion_details.png")} />
 
 </View>
+<View style={styles.imgbox}>
+<Image style={styles.img} source={require("../assets/images/fashion_details.png")} />
 
+</View>
+<View style={styles.imgbox}>
+<Image style={styles.img} source={require("../assets/images/fashion_details.png")} />
+
+</View>
+        {/* <View style={styles.slide1}>
+          <Text style={styles.text}>Hello Swiper</Text>
+        </View>
+        <View style={styles.slide2}>
+          <Text style={styles.text}>Beautiful</Text>
+        </View>
+        <View style={styles.slide3}>
+          <Text style={styles.text}>And simple</Text>
+        </View> */}
+      </Swiper>
           <View style={styles.profile_body}>
           
-              <View style={styles.dotted}>
-          <View style={styles.flextwoTouch}>
-                            <TouchableOpacity style={styles.touchTwo}>
-                                   
-                                   </TouchableOpacity>
-                                <TouchableOpacity style={styles.touchOne}>
-                                   
-                                </TouchableOpacity>
-                               
-                                <TouchableOpacity style={styles.touchTwo}>
-                                   
-                                </TouchableOpacity>
-                            </View>
-                            </View>
+              
          <ScrollView  showsVerticalScrollIndicator={false}>
 
 <View style={{marginTop:20,}}>
@@ -51,8 +143,8 @@ const FashionDetails = ({ navigation }) => {
 
 </View>
 <View>
-    <Text style={styles.desctitle}>Description</Text>
-    <Text style={styles.describetext}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac lectus pulvinar, sodales nisi eu, malesuada ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ut eros lacus.  Duis ultrices, nisi ac aliquet imperdiet, dolor metus placerat ante, sed blandit ex nibh vel quam. </Text>
+    <Text style={styles.desctitle}>Description {this.state.vendorId}</Text>
+    <Text style={styles.describetext}>{this.state.pbody}</Text>
 <View style={{marginTop:5}}>
    <Text style={styles.weblinktext}><Image  source={require("../assets/images/webicon.png")} />  <TouchableOpacity onPress={() => Linking.openURL('https://www.csglobalmall/crazydealz.com')}><Text style={{color: 'blue'}} >https://www.csglobalmall/crazydealz.com</Text></TouchableOpacity></Text>
 </View>
@@ -66,7 +158,9 @@ const FashionDetails = ({ navigation }) => {
 </View>
 
 
-<TouchableOpacity>
+<TouchableOpacity  onPress={() => this.props.navigation.navigate('cartStack', {
+                   screen:'Cart',
+  })}>
     <View style={styles.paybutton}>
         <Text style={styles.paybuttontext}>Add to cart</Text>
     </View>
@@ -82,7 +176,7 @@ const FashionDetails = ({ navigation }) => {
 
 </ScrollView> 
         
-
+<CommonBottom />
 
               </View>
            
@@ -91,9 +185,9 @@ const FashionDetails = ({ navigation }) => {
 
 </View>
     );
-};
+}
+}
 
-export default FashionDetails;
 
 const styles = StyleSheet.create({
     profile_bodyarea: {
@@ -116,7 +210,7 @@ const styles = StyleSheet.create({
      
        borderTopRightRadius:70,
        paddingHorizontal:30, 
-       paddingBottom:30
+       paddingBottom:55
       
       
     },
@@ -145,6 +239,31 @@ desctitle:{color:COLORS.cyan,fontSize:18,fontWeight:SIZES.medium,},
 describetext:{fontSize:14,color:COLORS.black,fontWeight:SIZES.light},
 weblinktext:{fontSize:14,color:COLORS.black,fontWeight:SIZES.light},
 pricetitle:{color:COLORS.black,fontSize:20,fontWeight:SIZES.medium,},
-
+wrapper: {},
+  slide1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB'
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5'
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9'
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
   
 })
+
+export default FashionDetails;
