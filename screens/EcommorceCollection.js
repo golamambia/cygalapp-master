@@ -51,7 +51,7 @@ fetch(Hosturl.api+'get-product?vendor_id='+JSON.stringify(vendorId), {
     .then((responseJson) => {
       //Hide Loader
       //setLoading(false);
-      console.log(responseJson);
+     // console.log(responseJson);
       
        if (responseJson.status) {
         // setcategorylist(responseJson.response_data);

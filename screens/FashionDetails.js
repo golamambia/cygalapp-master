@@ -1,7 +1,7 @@
 import React, { useState ,useEffect,createRef,Component}  from 'react';
-import { Alert,View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Image, TouchableHighlight ,
+import { Alert,ToastAndroid,View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Image, TouchableHighlight ,
     TouchableOpacity,KeyboardAvoidingView,ScrollView,Keyboard} from 'react-native';
-    import { COLORS, SIZES, FONTS,Hosturl } from '../constants/theme';
+    import { COLORS, SIZES, FONTS,Hosturl,Imgurl } from '../constants/theme';
 // import Squery from '../component/icons/square'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
@@ -26,6 +26,9 @@ class FashionDetails extends Component {
           slug: this.props.route.params.slug,
           details:'',
           pbody:'',
+          currency:'',
+          multiimage:[],
+          productId:0,
          
          
          
@@ -54,12 +57,12 @@ class FashionDetails extends Component {
        // this.props.navigation.navigate('Home');
     }
     if(this.state.vendorId && this.state.slug){
+      //console.log(this.state.slug);
         this.getData();
     }
       }
       getData() {
-        //console.log(231);
-    
+        this.setState({ loading:true });
        fetch(Hosturl.api+'get-product-details?vendor_id='+this.state.vendorId+'&slug='+this.state.slug, {
           method: 'GET',
         //   body: JSON.stringify({
@@ -76,14 +79,17 @@ class FashionDetails extends Component {
           .then((response) => response.json())
           .then((responseJson) => {
             //Hide Loader
-            //setLoading(false);
-            console.log(responseJson);
+            this.setState({ loading:false });
+            //console.log(responseJson);
             
              if (responseJson.status) {
             
                 this.setState({ details:responseJson.response_data });
                 let dbody=  responseJson.response_data.description.replace( /(<([^>]+)>)/gi, '');
                 this.setState({ pbody:dbody});
+                this.setState({ currency:responseJson.currency});
+                this.setState({ multiimage:responseJson.images});
+                this.setState({ productId:responseJson.response_data.id });
             //   //console.log(responseJson);
            // setuserdata(responseJson.response_data)
              } 
@@ -91,10 +97,51 @@ class FashionDetails extends Component {
           })
           .catch((error) => {
             //Hide Loader
-            //setLoading(false);
+            this.setState({ loading:false });
             //console.error(error);
           });
       }
+      addCart() {
+      //  alert(123);
+    
+        fetch(Hosturl.api+'add-to-cart', {
+           method: 'POST',
+           body: JSON.stringify({
+             vendor_id: this.state.vendorId,
+             product_id : this.state.productId,
+             quantity:1,
+             user_id:this.state.userId,
+           }),
+           headers: {
+             //Header Defination
+             'Accept': 'application/json',
+             'Content-Type':'application/json',
+             //'Authorization' :  'Bearer  '+this.state.token
+           },
+         })
+           .then((response) => response.json())
+           .then((responseJson) => {
+             //Hide Loader
+             //setLoading(false);
+             //console.log(responseJson);
+             
+             if (responseJson.status) {
+              ToastAndroid.show("Cart added successfully", ToastAndroid.SHORT,ToastAndroid.TOP);
+              AsyncStorage.setItem('vendorid', this.state.vendorId);
+       
+           } 
+          else {
+       
+         Alert.alert('Server error');
+           }
+            
+           })
+           .catch((error) => {
+             //Hide Loader
+             //setLoading(false);
+             //console.error(error);
+           });
+       }
       render() {
     return (
         <View style={styles.profile_bodyarea}>
@@ -105,22 +152,26 @@ class FashionDetails extends Component {
                 translucent={true}
             />
             
-            
+            <Loader loading={this.state.loading} />
    
 
-<Swiper  showsButtons={false} dotColor="#fff" activeDotColor={COLORS.cyan} paginationStyle={{ position: "absolute", top: 0, bottom: 25,color:'red'}} autoplay={true}>
+<Swiper  key={this.state.multiimage.length} showsButtons={false} dotColor="#fff" activeDotColor={COLORS.cyan} paginationStyle={{ position: "absolute", top: 0, bottom: 25,color:'red'}} autoplay={true}>
+
+{this.state.multiimage.map((value, index) => (
 <View style={styles.imgbox}>
+<Image style={styles.imgnw}  source={{uri: Imgurl.path+value.image,}}/>
+
+</View>
+))}
+ </Swiper>
+{/* <View style={styles.imgbox}>
 <Image style={styles.img} source={require("../assets/images/fashion_details.png")} />
 
 </View>
 <View style={styles.imgbox}>
 <Image style={styles.img} source={require("../assets/images/fashion_details.png")} />
 
-</View>
-<View style={styles.imgbox}>
-<Image style={styles.img} source={require("../assets/images/fashion_details.png")} />
-
-</View>
+</View> */}
         {/* <View style={styles.slide1}>
           <Text style={styles.text}>Hello Swiper</Text>
         </View>
@@ -130,7 +181,7 @@ class FashionDetails extends Component {
         <View style={styles.slide3}>
           <Text style={styles.text}>And simple</Text>
         </View> */}
-      </Swiper>
+     
           <View style={styles.profile_body}>
           
               
@@ -143,7 +194,7 @@ class FashionDetails extends Component {
 
 </View>
 <View>
-    <Text style={styles.desctitle}>Description {this.state.vendorId}</Text>
+    <Text style={styles.desctitle}>Description </Text>
     <Text style={styles.describetext}>{this.state.pbody}</Text>
 <View style={{marginTop:5}}>
    <Text style={styles.weblinktext}><Image  source={require("../assets/images/webicon.png")} />  <TouchableOpacity onPress={() => Linking.openURL('https://www.csglobalmall/crazydealz.com')}><Text style={{color: 'blue'}} >https://www.csglobalmall/crazydealz.com</Text></TouchableOpacity></Text>
@@ -152,15 +203,15 @@ class FashionDetails extends Component {
 <View style={{marginTop:5,marginBottom:5}}>
    <Text style={{fontSize:14,color:COLORS.black,fontWeight:SIZES.light}}> <Icon  name="star" color={COLORS.cyan} /> <Icon  name="star" color={COLORS.cyan} /> <Icon  name="star" color={COLORS.cyan} /> <Icon  name="star" color={COLORS.cyan} /> <Icon  name="star" color={COLORS.gray} /> <Text style={{color: COLORS.gray}} >150 Customer Reviews</Text></Text>
 </View>
-<Text style={styles.pricetitle}>$ 300 / <Text style={{color: COLORS.cyan}} >20% Off</Text></Text>
+<Text style={styles.pricetitle}>{this.state.currency} {this.state.details?.sale_price}
+{/* / <Text style={{color: COLORS.cyan}} >20% Off</Text> */}
+</Text>
 
 
 </View>
 
 
-<TouchableOpacity  onPress={() => this.props.navigation.navigate('cartStack', {
-                   screen:'Cart',
-  })}>
+<TouchableOpacity onPress={() => this.addCart()}> 
     <View style={styles.paybutton}>
         <Text style={styles.paybuttontext}>Add to cart</Text>
     </View>
@@ -215,6 +266,7 @@ const styles = StyleSheet.create({
       
     },
     img:{width:'100%',resizeMode:'cover'},
+    imgnw:{width:'100%',height:'100%',resizeMode:'cover'},
     imgbox:{
         height:'100%',
         width:'100%',

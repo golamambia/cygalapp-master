@@ -1,15 +1,25 @@
-import React, { useState }  from 'react';
+import React, { useState ,useEffect,createRef,Component}  from 'react';
 import { View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Image, TouchableHighlight ,
-    TouchableOpacity,KeyboardAvoidingView,ScrollView,SafeAreaView,} from 'react-native';
+    TouchableOpacity,KeyboardAvoidingView,ScrollView,SafeAreaView,ToastAndroid} from 'react-native';
 import { COLORS, SIZES, FONTS } from '../constants/theme'
 // import Squery from '../component/icons/square'
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
 import {Picker} from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { BackHandler } from 'react-native'
 const PaymentSuccess = ({ navigation }) => {
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
+    useEffect(() => {
+        const unsubscribe = BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+    
+        return () => null
+    }, []);
+    const handleBackButton = () => {
+        //ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
+        return true;
+    }
     return (
         <View style={styles.profile_bodyarea}>
             <StatusBar
@@ -25,11 +35,11 @@ const PaymentSuccess = ({ navigation }) => {
 
 </View>
 <View>
-    <Text style={styles.confirmtitle}>Confirmation</Text>
+    <Text style={styles.confirmtitle}>Thank You</Text>
     <Text style={styles.successtitle}>You have successfully 
 </Text>
     <Text style={styles.successtitle}>
-completed your payment procedure</Text>
+completed your order</Text>
 </View>
 </View>
 <TouchableOpacity onPress={() => navigation.navigate('Home')}>

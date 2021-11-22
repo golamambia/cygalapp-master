@@ -1,7 +1,7 @@
 
 import React, { useState ,useEffect,createRef,Component}  from 'react';
 import { Alert,View, Text, StatusBar, StyleSheet, ImageBackground, TextInput, Image, TouchableHighlight ,
-    TouchableOpacity,KeyboardAvoidingView,ScrollView,Keyboard} from 'react-native';
+    TouchableOpacity,KeyboardAvoidingView,ScrollView,Keyboard,PermissionsAndroid,Platform} from 'react-native';
     import { COLORS, SIZES, FONTS,Hosturl } from '../constants/theme';
 // import Squery from '../component/icons/square'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,7 +11,11 @@ import Loader from '../component/Loader';
 import { useNavigation } from '@react-navigation/native';
 //import {Changepassword} from '../screens/Changepassword';
 import CommonBottom from '../component/CommonBottom';
+// import ImagePicker from 'react-native-image-picker';
+
+
 class Profile extends Component {
+  
     constructor(props) {
         super(props);
         this.state = {
@@ -24,18 +28,29 @@ class Profile extends Component {
           email:'',
           phone:'',
           photo:'',
+          address:'',
+          isPermitted:false,
+          captureImages:[],
 
          
         };
-      }
-    //   componentWillMount(){
-    //     console.log(12)
-    //   }
-    async  componentDidMount()
-      {
-       // let userId = this.props.route.params.userId; 
-        //this.setState({ userId:userId }) 
        
+      }
+    
+      async  componentDidMount()
+      {
+        this.focusListener = this.props.navigation.addListener('focus',
+        () => { 
+                //console.log('focus is called'); 
+              this.getonlineData();
+        }
+      );
+       
+      
+      }
+    
+      async  getonlineData()
+      {
         const tokn =await  AsyncStorage.getItem('token');
         if (tokn !== null) {
             //console.log(tokn);
@@ -74,13 +89,14 @@ class Profile extends Component {
           .then((responseJson) => {
             //Hide Loader
             //setLoading(false);
-            //console.log(responseJson);
+           // console.log(responseJson.response_data);
             
              if (responseJson.status) {
             
                 this.setState({ name:responseJson.response_data.name });
                 this.setState({ email:responseJson.response_data.email });
-                this.setState({ phone:responseJson.response_data.phone_number}) 
+                this.setState({ phone:responseJson.response_data.phone_number}) ;
+                this.setState({ address:responseJson.response_data.address}); 
             //   //console.log(responseJson);
            // setuserdata(responseJson.response_data)
              } 
@@ -102,6 +118,10 @@ class Profile extends Component {
             alert('Please enter phone no');
             return;
           }
+          if (!this.state.address) {
+            alert('Please enter address');
+            return;
+          }
        
           this.setState({ loading:true });
               
@@ -112,7 +132,8 @@ class Profile extends Component {
             user_id: this.state.userId,
             name:this.state.name,
             phone_number:this.state.phone,
-            email:this.state.email
+            email:this.state.email,
+            address:this.state.address
            
           }),
           headers: {
@@ -149,10 +170,13 @@ class Profile extends Component {
       gotopassword(){
         this.props.navigation.navigate('Changepassword');
       }
+
+    
     render() {
        // const navigation = useNavigation();
         const nameInputRef = createRef();
         const phoneInputRef = createRef();
+        const adrsInputRef = createRef();
 
     return (
         <View style={styles.profile_bodyarea}>
@@ -165,6 +189,9 @@ class Profile extends Component {
            
             
               <View style={styles.profile_body}>
+              
+            
+
               <ScrollView style={{marginBottom:20}} contentContainerStyle={{
         
          justifyContent: 'center',
@@ -173,6 +200,7 @@ class Profile extends Component {
        keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}
       >
               <View style={styles.container}>
+             
               <KeyboardAvoidingView enabled>
             <View style={styles.profile_icon}>
                 {this.state.photo!='' ? 
@@ -235,10 +263,14 @@ class Profile extends Component {
                             onChangeText={(phone) =>
                                 this.setState({phone})
                               }
-                             
+                              returnKeyType="next"
+                              onSubmitEditing={() =>
+                                adrsInputRef.current &&
+                                adrsInputRef.current.focus()
+                              }
                               keyboardType="numeric"
                               ref={phoneInputRef}
-                              onSubmitEditing={Keyboard.dismiss}
+                             
                               blurOnSubmit={false}
                              
                               underlineColorAndroid="#f000"
@@ -259,6 +291,28 @@ class Profile extends Component {
                         />
         </View>
 
+        <View style={styles.formfield}>
+            <View style={styles.label}>
+        <Text style={styles.label_text}>Address</Text>
+            </View>
+        <TextInput
+        multiline={true}
+        numberOfLines={12}
+        textAlignVertical = "top"
+                            style={[styles.input,{ height:100}]}
+                            placeholder="Address"
+                            placeholderTextColor="#000" 
+                            value={this.state.address}
+                            onChangeText={(address) =>
+                                this.setState({address})
+                              }
+                              ref={adrsInputRef}
+                              onSubmitEditing={Keyboard.dismiss}
+                              underlineColorAndroid="#f000"
+                              blurOnSubmit={false}
+                              returnKeyType="next"
+                        />
+        </View>
 
    
         <TouchableOpacity  style={styles.flexthreeTouchtwo} onPress={() => this.postProfile()}>
@@ -376,6 +430,32 @@ const styles = StyleSheet.create({
             textTransform:'uppercase',fontSize:16,fontWeight:'700',
             paddingVertical:15,
         },
+        titleText: {
+          fontSize: 22,
+          textAlign: 'center',
+          fontWeight: 'bold',
+        },
+        textStyle: {
+          color: 'black',
+          fontSize: 16,
+          textAlign: 'center',
+          padding: 10,
+          marginTop: 16,
+        },
+        buttonStyle: {
+          fontSize: 16,
+          color: 'white',
+          backgroundColor: 'green',
+          padding: 5,
+          marginTop: 32,
+          minWidth: 250,
+        },
+        buttonTextStyle: {
+          padding: 5,
+          color: 'white',
+          textAlign: 'center',
+        },
+       
   
 })
 

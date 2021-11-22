@@ -12,10 +12,12 @@ import{ AuthContext } from '../component/context';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import CommonBottom from '../component/CommonBottom';
 
+
 const Home = ({ navigation }) => {
     useEffect(async () => {
    
-        // console.log(1);
+        // console.log(123);
+       
         const unsubscribe = navigation.addListener('focus', () => {
             demo();
           
@@ -47,6 +49,7 @@ const Home = ({ navigation }) => {
             />
           
           <View style={styles.profile_body}>
+        
           <ScrollView  showsVerticalScrollIndicator={false}>
 
           
@@ -62,6 +65,8 @@ const Home = ({ navigation }) => {
                             placeholderTextColor="#868686" 
                         />
                         </View>
+
+                        
                         <View >
                         <View style={{marginTop:10,marginBottom:15}}>
             

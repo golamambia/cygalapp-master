@@ -375,17 +375,11 @@ const fourthScreenStack = ({navigation}) => {
                         headerTintColor: COLORS.white,
                        
                         headerTitleStyle: { fontSize: 20,fontWeight:'500',},
-                        headerLeft: () => (
+                        headerLeft: () => {
                   
-                          <AntDesign
-                              style={styles.menuButtom}
-                              color={COLORS.white}
-                              onPress={() => navigation.goBack()}
-                              name="arrowleft"
-                              size={26}
-                          />
+                          return null;
                           
-                      ),
+                        },
                     })} name="PaymentSuccess" component={PaymentSuccess} /> 
                     
       </Stack.Navigator>
