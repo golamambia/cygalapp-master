@@ -19,23 +19,25 @@ const FashionCollection = ({navigation, route}) => {
     const { vendorId } = route.params?.vendorId ?? 0;
     
     useEffect(async () => {
-        if(JSON.stringify(vendorId)){
-    
-            //const shop_type =JSON.stringify(vendorId);
-            setshop_type(JSON.stringify(vendorId));
-            }else{
-                setshop_type('');
-            }
+        
         //console.log(1);
-       const unsubscribe = navigation.addListener('focus', () => {
+     navigation.addListener('focus', () => {
            demo();
          
          });
-         return unsubscribe;
+        
  
     
     },[]);
     const demo=(async () => {
+        if(JSON.stringify(vendorId)){
+    
+            //const shop_type =JSON.stringify(vendorId);
+            setshop_type(JSON.stringify(vendorId));
+            console.log(JSON.stringify(vendorId));
+            }else{
+                setshop_type('');
+            }
         setLoading(true);
         const tokn =await  AsyncStorage.getItem('token');
         if (tokn !== null) {
@@ -51,7 +53,7 @@ const FashionCollection = ({navigation, route}) => {
             fetch(Hosturl.api+'get-vendors', {
                 method: 'POST',
                    body: JSON.stringify({
-                    shop_type: shop_type,
+                    shop_type: 5,
                     
                     
                    }),
@@ -66,7 +68,7 @@ const FashionCollection = ({navigation, route}) => {
                 .then((responseJson) => {
                   //Hide Loader
                   setLoading(false);
-                 // console.log(responseJson.response_data);
+                  console.log(responseJson.response_data);
                   
                    if (responseJson.status) {
                     setvendorlist(responseJson.response_data);

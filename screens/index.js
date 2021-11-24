@@ -23,6 +23,7 @@ import FashionDetails from "./FashionDetails";
 import Changepassword from "./Changepassword";
 import Vendordetails from "./Vendordetails";
 import Cart from "./Cart";
+import OrderList from "./OrderList";
 export {
 
     Login,
@@ -48,7 +49,8 @@ export {
     FashionDetails,
     Changepassword,
     Vendordetails,
-    Cart
+    Cart,
+    OrderList
    
     
 }

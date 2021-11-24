@@ -2,11 +2,11 @@ import { Dimensions } from "react-native";
 const { height, width } = Dimensions.get("screen");
 
 export const Hosturl = {
-api:'https://webtechnomind.in/project/cygal/vendor/api/'
+api:'https://vendor.cygaldigital.com/api/'
 
 }
 export const Imgurl = {
-    path:"https://webtechnomind.in/project/cygal/vendor/public/uploads/"
+    path:"https://vendor.cygaldigital.com/api/public/uploads/"
     
     }
 export const COLORS = {

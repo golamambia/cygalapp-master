@@ -12,7 +12,7 @@ import {
 import {Login, Registration,GetstartedPage,OnboardingOne,OnboardingTwo,OnboardingThree,
     Forgotpassword,Otpverified,Profile,Contactus,Enquery,Aboutus,Categories,EcommorceCollection,
     FashionCollection,ConfirmNumber,Checkout,Home,PaymentSuccess,Payment,FashionDetails,Changepassword,Vendordetails,
-  Cart} from '../screens';
+  Cart,OrderList} from '../screens';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS, SIZES } from "../constants/theme";
@@ -1008,7 +1008,7 @@ const Index = (navigation) => {
                           
                       ),
                     })} name="Forgot Password" component={Forgotpassword} />
-           <Drawer.Screen options={({ navigation, route }) => ({
+           {/* <Drawer.Screen options={({ navigation, route }) => ({
               drawerIcon: ({tintColor}) =>
               (
                 <Material name="counter" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -1034,7 +1034,7 @@ const Index = (navigation) => {
                           />
                           
                       ),
-                    })} name="Confirm Number" component={ConfirmNumber} />
+                    })} name="Confirm Number" component={ConfirmNumber} /> */}
             {/* <Drawer.Screen options={{ headerShown: false }} name="Otpverified" component={Otpverified} />     */}
            
             {get_sessionuser ? (
@@ -1090,8 +1090,8 @@ const Index = (navigation) => {
                             fontWeight:SIZES.regular,
                             
                         },
-                        drawerLabel:'Inquery',
-                        headerTitle: 'Inquery',
+                        drawerLabel:'Inquiry',
+                        headerTitle: 'Inquiry',
                         headerTitleAlign: 'center',
                         headerTransparent: true,
                         headerTintColor: COLORS.white,
@@ -1166,7 +1166,7 @@ const Index = (navigation) => {
                       
                 
                     ),}}/> 
-                    <Drawer.Screen options={({ navigation, route }) => ({
+                    {/* <Drawer.Screen options={({ navigation, route }) => ({
                        drawerIcon: ({tintColor}) =>
                        (
                          <Material name="rhombus-split" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
@@ -1194,7 +1194,7 @@ const Index = (navigation) => {
                                 size={26}
                             />
                         ),
-                    })} name="EcommorceCollection" component={EcommorceCollection} /> 
+                    })} name="EcommorceCollection" component={EcommorceCollection} />  */}
                       <Drawer.Screen options={({ navigation, route }) => ({
                          drawerIcon: ({tintColor}) =>
                          (
@@ -1292,6 +1292,35 @@ const Index = (navigation) => {
                       
                 
                     ),}} /> 
+
+{get_sessionuser ? (
+  <>
+  <Drawer.Screen options={({ navigation, route }) => ({
+    drawerIcon: ({tintColor}) =>
+    (
+      <Material name="view-list" style={{marginRight:-22,marginLeft:5}} color='#fff' width={20}  size={20}/>
+      
+
+    ),
+  headerTitle: 'Order List',
+  headerTitleAlign: 'center',
+  headerTransparent: true,
+  headerTintColor: COLORS.white,
+  drawerLabel: 'Order List',
+  headerTitleStyle: { fontSize: 20,fontWeight:'500'},
+  headerLeft: () => (
+    <Material
+        style={styles.menuButtom}
+        color={COLORS.white}
+        onPress={() =>  navigation.toggleDrawer()}
+        name="menu"
+        size={26}
+    />
+    
+),
+})} name="OrderList" component={OrderList} /> 
+
+</>): null}
                     {/* <Drawer.Screen options={({ navigation, route }) => ({
                        drawerIcon: ({tintColor}) =>
                        (
@@ -1412,7 +1441,7 @@ const Index = (navigation) => {
                       ),
                     })} name="Changepassword" component={Changepassword} /> */}
                      </>): null}
-                
+ 
                     </>)}
            
                 

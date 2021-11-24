@@ -15,26 +15,28 @@ const Categories = ({ navigation }) => {
     const [selectedValue, setSelectedValue] = useState("java");
     const [token, settoken] = useState("");
     const [categorylist, setcategorylist] = useState([]);
+    const [categorylist2, setcategorylist2] = useState([]);
+    const [sort, setsort] = useState(false);
     let content1 = [];
     useEffect(async () => {
    
        // console.log(1);
-       const unsubscribe = navigation.addListener('focus', () => {
+       navigation.addListener('focus', () => {
            demo();
-         
+          // console.log('focus is called'); 
          });
-         return unsubscribe;
- 
+   
     
-    });
+    },[]);
    const demo=(async () => {
+
        if(!categorylist){
        // setLoading(true);
        }
     
        const tokn =await  AsyncStorage.getItem('token');
        if (tokn !== null) {
-           console.log(tokn);
+          // console.log(tokn);
            //this.setState({ token:tokn }) 
            settoken(tokn);
           
@@ -59,24 +61,11 @@ const Categories = ({ navigation }) => {
        .then((responseJson) => {
          //Hide Loader
          setLoading(false);
-        // console.log(responseJson.response_data);
+         //console.log(responseJson.response_data);
          
           if (responseJson.status) {
             setcategorylist(responseJson.response_data);
-           // setcategorylist([...categorylist, responseJson.response_data]);
-           for (let userObject of responseJson.response_data) {
-            content1.push(responseJson.response_data);
-               // if(userObject.type==2){
-                   
-               // }
-            // let tl=  userObject.title.replace( /(<([^>]+)>)/ig, '');
-             //let dbody=  userObject.body.replace( /(<([^>]+)>)/gi, '');
-               //setbodydesc(dbody);
-               //settitle(tl);
-              // setimg(imgpath + userObject.image);
-
-              // console.log(userObject.body+'amb');
-           }
+          
        
           } 
         
@@ -93,6 +82,20 @@ const Categories = ({ navigation }) => {
   });
 };
 
+function sortListDesc(){
+    setsort(true);
+  let cat=categorylist.sort((a,b) =>  b.id-a.id );
+   setcategorylist(cat);
+ 
+ }
+ function sortListAsc(){
+  
+   setsort(false);
+   let cat=categorylist.sort((a,b) =>  a.id-b.id );
+    setcategorylist(cat);
+  
+ }
+
     return (
         <View style={styles.profile_bodyarea}>
             <StatusBar
@@ -104,10 +107,23 @@ const Categories = ({ navigation }) => {
           
      
                <View style={styles.sort_refine}>
+               {sort==true ? (
+  <>
                    <View style={styles.sort_refinebox}>
+                       <TouchableOpacity  onPress={() => sortListAsc()}>
                        <Text style={styles.sorttext}>
                            <Image  source={require("../assets/images/sorticon.png")} />   Sort</Text>
+                           </TouchableOpacity>
                    </View>
+                   </>):  <>
+                   <View style={styles.sort_refinebox}>
+                       <TouchableOpacity  onPress={() => sortListDesc()}>
+                       <Text style={styles.sorttext}>
+                           <Image  source={require("../assets/images/sorticon.png")} />   Sort</Text>
+                           </TouchableOpacity>
+                   </View>
+                   </>}
+
                    <View style={styles.sort_refinebox}>
 
                    <Text style={styles.sorttext}>

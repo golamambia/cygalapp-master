@@ -443,10 +443,6 @@ const styles = StyleSheet.create({
         //paddingLeft:15,
         alignItems:'center',
         alignSelf:'center',
-       
-        
-       
-       
         
     },
  
