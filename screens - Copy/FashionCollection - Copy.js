@@ -7,39 +7,26 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BottonCommon from '../component/BottonCommon'
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from '../component/Loader';
-import CommonBottom from '../component/CommonBottom';
 
-const FashionCollection = ({navigation, route}) => {
-    const [loading, setLoading] = useState(false);
+const FashionCollection = ({route, navigation }) => {
     const [isSelected, setSelection] = useState(false);
     const [selectedValue, setSelectedValue] = useState("java");
     const [token, settoken] = useState("");
     const [shop_type, setshop_type] = useState("");
-    const [vendorlist, setvendorlist] = useState([]);
-    const { vendorId } = route.params?.vendorId ?? 0;
+    const { vendorId } = route.params;
     
     useEffect(async () => {
-        
+   
         //console.log(1);
-     navigation.addListener('focus', () => {
-        console.log(1);
+       const unsubscribe = navigation.addListener('focus', () => {
            demo();
          
          });
-        
+         return unsubscribe;
  
     
     },[]);
     const demo=(async () => {
-        if(JSON.stringify(vendorId)){
-    
-            //const shop_type =JSON.stringify(vendorId);
-            setshop_type(JSON.stringify(vendorId));
-            console.log(JSON.stringify(vendorId));
-            }else{
-                setshop_type('');
-            }
-        setLoading(true);
         const tokn =await  AsyncStorage.getItem('token');
         if (tokn !== null) {
             //console.log(tokn);
@@ -47,29 +34,35 @@ const FashionCollection = ({navigation, route}) => {
             settoken(tokn);
            
         }
-        
-       
-           //console.log(shop_type);
-            fetch(Hosturl.api+'get-vendors', {
+        if(JSON.stringify(vendorId)){
+    
+            //const shop_type =JSON.stringify(vendorId);
+            setshop_type(JSON.stringify(vendorId));
+            }
+        if( token){
+            console.log(shop_type);
+            fetch(Hosturl.api+'get-vendor', {
                 method: 'POST',
                    body: JSON.stringify({
-                    shop_type: 5,
+                    shop_type: '',
+                    
+                    
                    }),
                 headers: {
                   //Header Defination
                   'Accept': 'application/json',
                   'Content-Type':'application/json',
-                  //'Authorization' :  'Bearer  '+token
+                  'Authorization' :  'Bearer  '+token
                 },
               })
                 .then((response) => response.json())
                 .then((responseJson) => {
                   //Hide Loader
-                  setLoading(false);
-                  //console.log(responseJson);
+                  //setLoading(false);
+                  console.log(responseJson);
                   
                    if (responseJson.status) {
-                    setvendorlist(responseJson.response_data);
+                  
                 
                    } 
                  
@@ -77,7 +70,7 @@ const FashionCollection = ({navigation, route}) => {
                 .catch((error) => {
             
                 });
-                
+                }
     });
   
     return (
@@ -86,7 +79,7 @@ const FashionCollection = ({navigation, route}) => {
                 backgroundColor="transparent"
                 translucent={true}
             />
-           <Loader loading={loading} />
+          
           <View style={styles.profile_body}>
           <ScrollView  showsVerticalScrollIndicator={false}>
             <View >
@@ -94,51 +87,125 @@ const FashionCollection = ({navigation, route}) => {
 
         <View style={styles.fashionstart}>
 
-        {vendorlist.map((value, index) => (
+
 <View style={styles.latestfashionbox}>
-<TouchableOpacity onPress={() => navigation.navigate('Shop', {
-    screen:'Vendordetails',
-    params: { vendorId: value.id },
-  })}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionCollection')}>
 <View style={styles.imgdiscount}> 
-<Image style={styles.fashionimgnw}  source={{
-    uri: Imgurl.path+value.store_image,
-   
-  }} />
+<Image style={styles.fashionimg} source={require("../assets/images/fas1.png")} />
 </View>
 <View style={styles.logtext}>
-    <View style={{width:30,height:30,borderRadius:30/2,borderColor:'white',borderWidth:1,backgroundColor:'white'}}>
     <View style={styles.logobox}>
-    <Image style={styles.fashionimg}  source={{
-    uri: Imgurl.path+value.mall_logo,
-   
-  }} />
-    {/* <Image style={styles.fashionimg} source={{uri: 'https://reactjs.org/logo-og.png'}} /> */}
+    <Image style={styles.fashionimg} source={require("../assets/images/flogo.png")} />
     </View>
-    </View>
-    <Text style={styles.logotitle}>{value.site_title} </Text>
+    <Text style={styles.logotitle}>Crazydealz</Text>
 </View>
 <View style={styles.ltboxtitle}>
     
-    <Text style={styles.readmoretitle}>{value.store_name}...<Text style={styles.morecolor}>[View More]</Text></Text>
+    <Text style={styles.readmoretitle}>Your shop is a place to sell and share...<Text style={styles.morecolor}>[View More]</Text></Text>
 </View>
 </TouchableOpacity>
     </View>
 
-))}
 
-{!vendorlist ? (
-  <>
+    <View style={styles.latestfashionbox}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionCollection')}>
+<View style={styles.imgdiscount}> 
+<Image style={styles.fashionimg} source={require("../assets/images/fas1.png")} />
+</View>
+<View style={styles.logtext}>
+    <View style={styles.logobox}>
+    <Image style={styles.fashionimg} source={require("../assets/images/flogo.png")} />
+    </View>
+    <Text style={styles.logotitle}>Crazydealz</Text>
+</View>
+<View style={styles.ltboxtitle}>
+    
+    <Text style={styles.readmoretitle}>Your shop is a place to sell and share...<Text style={styles.morecolor}>[View More]</Text></Text>
+</View>
+</TouchableOpacity>
+    </View>
+    
+<View style={styles.latestfashionbox}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionCollection')}>
+<View style={styles.imgdiscount}> 
+<Image style={styles.fashionimg} source={require("../assets/images/fas1.png")} />
+</View>
+<View style={styles.logtext}>
+    <View style={styles.logobox}>
+    <Image style={styles.fashionimg} source={require("../assets/images/flogo.png")} />
+    </View>
+    <Text style={styles.logotitle}>Crazydealz</Text>
+</View>
+<View style={styles.ltboxtitle}>
+    
+    <Text style={styles.readmoretitle}>Your shop is a place to sell and share...<Text style={styles.morecolor}>[View More]</Text></Text>
+</View>
+</TouchableOpacity>
+    </View>
 
-  <Text>No record found</Text>
-  </>): null}
+    
+<View style={styles.latestfashionbox}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionCollection')}>
+<View style={styles.imgdiscount}> 
+<Image style={styles.fashionimg} source={require("../assets/images/fas1.png")} />
+</View>
+<View style={styles.logtext}>
+    <View style={styles.logobox}>
+    <Image style={styles.fashionimg} source={require("../assets/images/flogo.png")} />
+    </View>
+    <Text style={styles.logotitle}>Crazydealz</Text>
+</View>
+<View style={styles.ltboxtitle}>
+    
+    <Text style={styles.readmoretitle}>Your shop is a place to sell and share...<Text style={styles.morecolor}>[View More]</Text></Text>
+</View>
+</TouchableOpacity>
+    </View>
+
+    
+<View style={styles.latestfashionbox}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionCollection')}>
+<View style={styles.imgdiscount}> 
+<Image style={styles.fashionimg} source={require("../assets/images/fas1.png")} />
+</View>
+<View style={styles.logtext}>
+    <View style={styles.logobox}>
+    <Image style={styles.fashionimg} source={require("../assets/images/flogo.png")} />
+    </View>
+    <Text style={styles.logotitle}>Crazydealz</Text>
+</View>
+<View style={styles.ltboxtitle}>
+    
+    <Text style={styles.readmoretitle}>Your shop is a place to sell and share...<Text style={styles.morecolor}>[View More]</Text></Text>
+</View>
+</TouchableOpacity>
+    </View>
+    
+<View style={styles.latestfashionbox}>
+<TouchableOpacity onPress={() => navigation.navigate('FashionCollection')}>
+<View style={styles.imgdiscount}> 
+<Image style={styles.fashionimg} source={require("../assets/images/fas1.png")} />
+</View>
+<View style={styles.logtext}>
+    <View style={styles.logobox}>
+    <Image style={styles.fashionimg} source={require("../assets/images/flogo.png")} />
+    </View>
+    <Text style={styles.logotitle}>Crazydealz</Text>
+</View>
+<View style={styles.ltboxtitle}>
+    
+    <Text style={styles.readmoretitle}>Your shop is a place to sell and share...<Text style={styles.morecolor}>[View More]</Text></Text>
+</View>
+</TouchableOpacity>
+    </View>
+
+
+
         </View>
    
 
             </View>
             </ScrollView>
-
-            <CommonBottom />
               </View>
            
           
@@ -168,8 +235,7 @@ const styles = StyleSheet.create({
        borderTopRightRadius:50,
        paddingHorizontal:20,
        paddingVertical:20,
-       paddingTop:20,
-       paddingBottom:55
+       paddingTop:20
     },
     fashionbox:{
 position:'relative',
@@ -234,8 +300,7 @@ latestfashionbox:{width:'47%',marginRight:'3%',marginBottom:20,position:'relativ
 },
 ltboxtitle:{marginLeft:10,marginRight:15},
 ltfashiontext:{fontSize:16,color:'#000',fontWeight:'300'},
-fashionimgnw:{width:'100%',height:'100%',resizeMode:'cover',borderRadius:10},
-fashionimg:{width:'100%',height:'100%',resizeMode:'cover',borderRadius:10,marginTop:8},
+fashionimg:{width:'100%',resizeMode:'cover',borderRadius:10},
 catbox:{marginBottom:15,flexDirection: "row",
 flexWrap: "wrap",},
 catleftbox:{marginRight:10,borderWidth:1,alignItems:'center',justifyContent:'center'
@@ -255,10 +320,10 @@ catboxcenter:{alignItems:'center',position:'relative'},
 cattitle:{fontSize:16,fontWeight:'700',textTransform:'uppercase',color:'#000',marginBottom:15},
 catfashionpos:{position:'absolute',justifyContent:'center',alignItems:'center',marginTop:30},
 logtext:{position:'absolute',flexDirection:"row",top:8,left:10},
-logotitle:{textTransform:'capitalize',fontSize:14,fontWeight:'400',color:'#fff',marginLeft:5,marginTop:5},
+logotitle:{textTransform:'capitalize',fontSize:14,fontWeight:'400',color:'#fff'},
 readmoretitle:{fontSize:12,fontWeight:'300'},
 morecolor:{color:'#4dc3c8'},
-logobox:{marginRight:10,height:11,width:24},
+logobox:{marginRight:10},
 fashionstart:{flexDirection:'row',flexWrap:'wrap',marginTop:5},
   
 })

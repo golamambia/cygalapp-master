@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import{ AuthContext } from '../component/context';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import CommonBottom from '../component/CommonBottom';
-import Swiper from 'react-native-swiper';
+
 
 const Home = ({ navigation }) => {
     useEffect(async () => {
@@ -149,8 +149,6 @@ const Home = ({ navigation }) => {
 </View>
 
             <View >
-            <Swiper height={198} showsButtons={false} dotColor="#000" activeDotColor={COLORS.cyan} paginationStyle={{ position: "absolute", bottom: -20,color:'red'}} autoplay={true}>
-
                 <View style={styles.fashionbox}>
                 <Image style={styles.img} source={require("../assets/images/homefashionbg.png")} />
                 <View style={styles.fashiontextbox}>
@@ -166,40 +164,9 @@ const Home = ({ navigation }) => {
                 
                     </View>
                 </View>
-                <View style={styles.fashionbox}>
-                <Image style={styles.img} source={require("../assets/images/homefashionbg.png")} />
-                <View style={styles.fashiontextbox}>
-         
-            <Text style={styles.fashiontitle}>fashion</Text>
-            <Text style={{fontSize:17,color:'#fff'}}>Fabulous Collections</Text>
-            
-            <TouchableOpacity style={styles.browse_touch} onPress={() => navigation.navigate('categoryStack', {
-                   screen:'Categories', })}>
-            <Text style={styles.browse_pro}>Browse Product</Text>
-        </TouchableOpacity>
-
-                
-                    </View>
-                </View>
-                <View style={styles.fashionbox}>
-                <Image style={styles.img} source={require("../assets/images/homefashionbg.png")} />
-                <View style={styles.fashiontextbox}>
-         
-            <Text style={styles.fashiontitle}>fashion</Text>
-            <Text style={{fontSize:17,color:'#fff'}}>Fabulous Collections</Text>
-            
-            <TouchableOpacity style={styles.browse_touch} onPress={() => navigation.navigate('categoryStack', {
-                   screen:'Categories', })}>
-            <Text style={styles.browse_pro}>Browse Product</Text>
-        </TouchableOpacity>
-
-                
-                    </View>
-                </View>
-                </Swiper>
 
           
-        <View style={{marginTop:30,position:'relative'}}>
+        <View style={{marginTop:20,position:'relative'}}>
             
 <Text style={styles.discounttitle}>Latest fashion </Text>
 
@@ -258,8 +225,8 @@ const Home = ({ navigation }) => {
 <View style={styles.imgdiscount2}> 
 <Image style={styles.fashionimg} source={require("../assets/images/appliance_sale.png")} />
 </View>
-<View style={{position:'absolute',top:0}}>
-    <Text style={styles.ltfashiontext2}>APPLIANCE SALE ON {"\n"}<Text style={{marginTop:0}}>20-30% Off</Text></Text>
+<View style={{position:'absolute',top:10}}>
+    <Text style={styles.ltfashiontext2}>APPLIANCE SALE ON {"\n"}<Text style={{marginTop:10}}>20-30% Off</Text></Text>
     
 </View>
 </TouchableOpacity>
@@ -275,7 +242,6 @@ const Home = ({ navigation }) => {
 </View>
 </TouchableOpacity>
     </View>
-    
 
   
 </ScrollView>
@@ -451,18 +417,17 @@ imgdiscount:{
 imgdiscount2:{
     position:'relative',
     height:144,
-    width:290,
   
 },
 fashiontextbox:{position:'absolute',top:25,bottom:0,left:15},
 fashiontextbox2:{position:'absolute',bottom:10,left:0,alignSelf:'center',right:0},
 fashiontitle:{fontSize:26,fontWeight:'600',textTransform:'uppercase',color:'#fff'},
 latestfashionbox:{width:140,marginRight:10,},
-latestfashionbox2:{width:290,marginRight:10,},
+latestfashionbox2:{width:360,marginRight:10,},
 ltboxtitle:{marginLeft:10,marginRight:15},
 ltfashiontext:{fontSize:15,color:'#000',fontWeight:'400',textAlign:'center'},
-ltfashiontext2:{fontSize:19,color:'#000',fontWeight:SIZES.semibold,color:COLORS.white,marginTop:25,marginLeft:15},
-fashionimg:{resizeMode:'cover',borderRadius:10,width:'100%'},
+ltfashiontext2:{fontSize:20,color:'#000',fontWeight:SIZES.semibold,color:COLORS.white,marginTop:25,marginLeft:15},
+fashionimg:{resizeMode:'cover',borderRadius:10},
 catbox:{marginBottom:15,flexDirection: "row",
 flexWrap: "wrap",},
 catleftbox:{marginRight:10,borderWidth:1,alignItems:'center',justifyContent:'center'
