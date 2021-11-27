@@ -878,8 +878,8 @@ function  getCart() {
         <Drawer.Screen  name="Home" component={Home} options={({ navigation, route }) => ({
          
           drawerLabel:() =><View style={styles.customersRightMenu}>
-            <View><Material name="home" style={{marginRight:0,marginLeft:15}} color='#fff' width={30}  size={22}/></View>
-         <Text style={{color:COLORS.white,marginLeft:8}}>Home</Text>
+            <View><AntDesign name="home" style={{marginRight:0,marginLeft:5}} color='#fff' width={20}  size={20}/></View>
+         <Text style={{color:COLORS.white,marginLeft:10}}>Home</Text>
           <View style={{flex:1,marginRight:-20}}><Material name="chevron-right" style={{marginRight:0,marginLeft:0,alignSelf:'flex-end'}} color='#fff' width={30}  size={25}/></View>
           
       </View>
@@ -889,7 +889,11 @@ function  getCart() {
                        alignItems:'flex-end',
                        },
                       
-    
+                        drawerIcon: ({tintColor}) =>
+    (
+      <AntDesign name="home" style={{marginRight:-22,marginLeft:5}} color='#fff' width={20}  size={20}/>
+      
+    ),
   // headerTitle: 'Home',
                         headerTitleAlign: 'center',
                         headerTransparent: true,
@@ -965,15 +969,13 @@ function  getCart() {
 
                       </>)}
                      <Drawer.Screen options={({ navigation, route }) => ({
-                         drawerLabel:() =><View style={styles.customersRightMenu}>
-                         <View><Material name="information-variant" style={{marginRight:0,marginLeft:15}} color='#fff' width={20}  size={22}/>
-                          </View>
-                      <Text style={{color:COLORS.white,marginLeft:8}}>About us</Text>
-                       <View style={{flex:1,marginRight:-20}}><Material name="chevron-right" style={{marginRight:0,marginLeft:0,alignSelf:'flex-end'}} color='#fff' width={30}  size={25}/></View>
-                       
-                   </View>
-                       ,
-                        
+                         drawerLabel:"About us",
+                         drawerIcon: ({tintColor}) =>
+                         (
+                           <Material name="information-variant" style={{marginRight:-30,marginLeft:5}} color='#fff' width={20}  size={20}/>
+                           
+                     
+                         ),
                         headerTitle: 'About Us',
                         headerTitleAlign: 'center',
                         headerTransparent: true,

@@ -1,6 +1,6 @@
 import React, { useState,useContext ,useEffect }  from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { COLORS, SIZES, FONTS } from '../constants/theme'
+import { COLORS, SIZES, FONTS,Hosturl,Imgurl } from '../constants/theme'
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation,CommonActions } from '@react-navigation/native';
  import AsyncStorage from '@react-native-community/async-storage';
@@ -11,7 +11,7 @@ const CommonBottom = (props) => {
     const [clr, setclr] = useState(COLORS.black);
     const [actclr, setactclr] = useState(COLORS.cyan);
      const [tabval, settabval] = useState();
-
+     const[totalcart, settotalcart]=useState(0);
      const route = useRoute();
 const state = useNavigationState(state => state);
 const routeName = (state.routeNames[state.index]);
@@ -26,13 +26,11 @@ settabval('Home');
 settabval('Cart');
    }
         // console.log(1);
-        const unsubscribe = navigation.addListener('focus', () => {
+        navigation.addListener('focus', () => {
             demo();
-          
+            getCart();
           });
-          return unsubscribe;
-  
-     
+        
      });
     const demo=(async () => {
         const value = await AsyncStorage.getItem('user_id');
@@ -42,6 +40,40 @@ settabval('Cart');
     }
        
     });
+  function  getCart() {
+   
+fetch(Hosturl.api+'get-cart', {
+  method: 'POST',
+  body: JSON.stringify({
+      user_id:userid,
+      //vendor_id:this.state.vendorid
+   
+  }),
+  headers: {
+    //Header Defination
+    'Accept': 'application/json',
+    'Content-Type':'application/json',
+   // 'Authorization' :  'Bearer  '+token
+  },
+}).then((response) => response.json())
+  .then((responseJson) => {
+    //Hide Loader
+   
+  // console.log(responseJson.response_data.cart.length);
+    
+     if (responseJson.status) {
+     
+        settotalcart(responseJson.response_data.cart.length);
+             
+     } 
+   
+  })
+  .catch((error) => {
+
+  });
+
+
+}
      const navigation = useNavigation();
 
   const handleSubmitPress = (val) => {
@@ -94,6 +126,9 @@ navigation.navigate('Login');
     </TouchableOpacity>
     <TouchableOpacity   onPress={handleSubmitPress.bind(this,'Cart')} style={styles.flexDiv}>
 <View style={styles.flexDiv}>
+<View style={styles.cartdiv}>
+<Text style={styles.carttext}>{totalcart}</Text>
+</View>
 <Material
                 name="cart"               
                 color={tabval=='Cart' ? actclr : clr}
@@ -120,7 +155,11 @@ const styles = StyleSheet.create({
     mainDiv: {height: 50,
     backgroundColor:COLORS.white,position: 'absolute', left: 0, right: 0, bottom: 0,
     paddingTop:6,flexDirection:'row',borderTopColor:COLORS.gray,borderTopWidth:0.5},
-    flexDiv: {flex:1,alignItems:'center'}
+    flexDiv: {flex:1,alignItems:'center'},
+    cartdiv:{zIndex:1,top:-3,left:15,width:16,height:16,
+        backgroundColor:COLORS.cyan,borderRadius:10,alignSelf:"flex-end",
+        position:'absolute'},
+        carttext:{color:COLORS.white,alignSelf:'center',fontSize:10,paddingTop:.5}
 })
 
 export default CommonBottom;

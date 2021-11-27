@@ -43,10 +43,17 @@ const Home = ({ navigation }) => {
     return (
         <View style={styles.profile_bodyarea}>
             <StatusBar
-                backgroundColor="#000"
-                translucent = {false}
+                backgroundColor="#fff"
+                translucent = {true}
+                barStyle="dark-content"
             />
-          
+            {/* <View style={{top:12,right:10,width:16,height:16,backgroundColor:COLORS.cyan,borderRadius:10,alignSelf:"flex-end",position:'absolute'}}>
+
+            </View> */}
+            <View style={{alignItems:'center',marginTop:10,paddingTop:30}}>
+            <Image source={require("../assets/images/mall-logo.png")} />
+            </View>
+         
           <View style={styles.profile_body}>
         
           <ScrollView  showsVerticalScrollIndicator={false}>
@@ -69,7 +76,7 @@ const Home = ({ navigation }) => {
                         <View >
                         <View style={{marginTop:10,marginBottom:15}}>
             
-            <Text style={{color:COLORS.black,fontSize:15,fontWeight:SIZES.medium}}>Swipe to Explore More </Text>
+            <Text style={{color:COLORS.black,fontSize:15,fontWeight:SIZES.medium,fontFamily:'MPLUS1-Medium'}}>Swipe to Explore More </Text>
             
            
             </View>
@@ -149,14 +156,13 @@ const Home = ({ navigation }) => {
 </View>
 
             <View >
-            <Swiper height={198} showsButtons={false} dotColor="#000" activeDotColor={COLORS.cyan} paginationStyle={{ position: "absolute", bottom: -20,color:'red'}} autoplay={true}>
-
-                <View style={styles.fashionbox}>
-                <Image style={styles.img} source={require("../assets/images/homefashionbg.png")} />
+            <Swiper dotStyle={{color:'red',borderColor:'red'}} containerStyle={{borderRadius:10}} height={198} showsButtons={false}  activeDotColor={COLORS.cyan} paginationStyle={{ position: "absolute", bottom: -20,color:'red'}} autoplay={true}>
+           <View style={styles.fashionbox}>
+                <Image style={styles.imgnw} source={require("../assets/images/homefashionbg.png")} />
                 <View style={styles.fashiontextbox}>
          
             <Text style={styles.fashiontitle}>fashion</Text>
-            <Text style={{fontSize:17,color:'#fff'}}>Fabulous Collections</Text>
+            <Text style={styles.fashioninnertitle}>Fabulous Collections</Text>
             
             <TouchableOpacity style={styles.browse_touch} onPress={() => navigation.navigate('categoryStack', {
                    screen:'Categories', })}>
@@ -167,11 +173,11 @@ const Home = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.fashionbox}>
-                <Image style={styles.img} source={require("../assets/images/homefashionbg.png")} />
+                <Image style={styles.imgnw} source={require("../assets/images/homefashionbg.png")} />
                 <View style={styles.fashiontextbox}>
          
             <Text style={styles.fashiontitle}>fashion</Text>
-            <Text style={{fontSize:17,color:'#fff'}}>Fabulous Collections</Text>
+            <Text style={styles.fashioninnertitle}>Fabulous Collections</Text>
             
             <TouchableOpacity style={styles.browse_touch} onPress={() => navigation.navigate('categoryStack', {
                    screen:'Categories', })}>
@@ -182,11 +188,11 @@ const Home = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.fashionbox}>
-                <Image style={styles.img} source={require("../assets/images/homefashionbg.png")} />
+                <Image style={styles.imgnw} source={require("../assets/images/homefashionbg.png")} />
                 <View style={styles.fashiontextbox}>
          
             <Text style={styles.fashiontitle}>fashion</Text>
-            <Text style={{fontSize:17,color:'#fff'}}>Fabulous Collections</Text>
+            <Text style={styles.fashioninnertitle}>Fabulous Collections</Text>
             
             <TouchableOpacity style={styles.browse_touch} onPress={() => navigation.navigate('categoryStack', {
                    screen:'Categories', })}>
@@ -196,6 +202,7 @@ const Home = ({ navigation }) => {
                 
                     </View>
                 </View>
+                
                 </Swiper>
 
           
@@ -203,7 +210,7 @@ const Home = ({ navigation }) => {
             
 <Text style={styles.discounttitle}>Latest fashion </Text>
 
-<Text style={{alignSelf:'flex-end',fontSize:14,color:'#909090',position:'absolute'}}> See All</Text>
+<Text style={{alignSelf:'flex-end',fontSize:14,color:'#909090',position:'absolute',marginTop:10,fontFamily:'MPLUS1-Regular'}}> See All</Text>
 </View>
         
         <View style={{marginTop:10,flexDirection:'row',}}>
@@ -285,9 +292,9 @@ const Home = ({ navigation }) => {
         </View>
         <View style={{marginTop:20,position:'relative',marginBottom:15}}>
             
-            <Text style={{fontSize:18,fontWeight:SIZES.medium,color:COLORS.black,textTransform:'uppercase'}}>Shop Categories</Text>
+            <Text style={{fontSize:18,fontWeight:SIZES.medium,color:COLORS.black,textTransform:'uppercase',fontFamily:'MPLUS1-Medium'}}>Shop Categories</Text>
             
-            <Text style={{alignSelf:'flex-end',fontSize:14,color:'#909090',position:'absolute'}}> See All</Text>
+            <Text style={{alignSelf:'flex-end',fontSize:14,color:'#909090',position:'absolute',fontFamily:'MPLUS1-Regular',fontWeight:SIZES.regular}}> See All</Text>
             </View>
 <View style={{flexDirection:'row',flexWrap:'wrap'}}>
             <View style={styles.fashionbox2}>
@@ -348,6 +355,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         backgroundColor:'#fff',
+        position:'relative'
          
     },
     input: {
@@ -369,7 +377,7 @@ const styles = StyleSheet.create({
     profile_body: {
        flex:1,
     //    position:'absolute',
-    marginTop:100,
+    marginTop:10,
        backgroundColor:'#fff',
        bottom:0,
        left:0,
@@ -379,7 +387,7 @@ const styles = StyleSheet.create({
        paddingHorizontal:20,
        paddingVertical:20,
        paddingTop:20,
-       paddingBottom:55
+       paddingBottom:50
     },
     fashionbox:{
 position:'relative',
@@ -402,6 +410,7 @@ borderRadius:10,
 imgbox:{
     height:186,alignItems:'center'
 },
+imgnw:{width:'100%',resizeMode:'cover',borderRadius:10},
 img:{width:'100%',resizeMode:'cover'},
 img2:{width:'100%',height:'100%',resizeMode:'cover'},
 textdesc:{
@@ -441,7 +450,8 @@ discounttitle:{
 fontSize:18,
 fontWeight:SIZES.medium,
 paddingVertical:8,
-textTransform:'uppercase'
+textTransform:'uppercase',
+fontFamily:'MPLUS1-Medium'
 },
 imgdiscount:{
     
@@ -456,12 +466,13 @@ imgdiscount2:{
 },
 fashiontextbox:{position:'absolute',top:25,bottom:0,left:15},
 fashiontextbox2:{position:'absolute',bottom:10,left:0,alignSelf:'center',right:0},
-fashiontitle:{fontSize:26,fontWeight:'600',textTransform:'uppercase',color:'#fff'},
+fashiontitle:{fontSize:26,fontWeight:SIZES.semibold,textTransform:'uppercase',color:'#fff',fontFamily:'MPLUS1-SemiBold'},
+fashioninnertitle:{fontSize:17,color:'#fff',fontWeight:SIZES.regular,fontFamily:'MPLUS1-Regular'},
 latestfashionbox:{width:140,marginRight:10,},
 latestfashionbox2:{width:290,marginRight:10,},
 ltboxtitle:{marginLeft:10,marginRight:15},
-ltfashiontext:{fontSize:15,color:'#000',fontWeight:'400',textAlign:'center'},
-ltfashiontext2:{fontSize:19,color:'#000',fontWeight:SIZES.semibold,color:COLORS.white,marginTop:25,marginLeft:15},
+ltfashiontext:{fontSize:15,color:'#000',fontWeight:'400',textAlign:'center',fontFamily:'MPLUS1-Regular'},
+ltfashiontext2:{fontSize:18,color:'#000',fontWeight:SIZES.semibold,color:COLORS.white,marginTop:25,marginLeft:15,fontFamily:'MPLUS1-SemiBold'},
 fashionimg:{resizeMode:'cover',borderRadius:10,width:'100%'},
 catbox:{marginBottom:15,flexDirection: "row",
 flexWrap: "wrap",},
@@ -489,7 +500,8 @@ browse_pro:{
     paddingVertical:10,
     textAlign:'center',
     borderRadius:10,
-    fontWeight:'500'
+    fontWeight:SIZES.medium,
+    fontFamily:'MPLUS1-Medium'
 },
 browse_touch:{marginRight:25,marginTop:25,},
 browse_pro2:{
@@ -501,10 +513,11 @@ browse_pro2:{
     textAlign:'center',
     borderRadius:5,
     fontWeight:SIZES.regular,
-    textTransform:'capitalize'
+    textTransform:'capitalize',
+    fontFamily:'MPLUS1-Regular'
 },
 swipbox:{marginRight:20,alignItems:'center'},
 swipcircle:{height:58,width:58,overflow:'hidden',borderRadius:100/2,borderColor:'#cff2f3',borderWidth:2,margin:'auto'},
-swiptitle:{fontWeight:SIZES.light,color:'#000',textAlign:'center',fontSize:11},
+swiptitle:{fontWeight:SIZES.light,color:'#000',textAlign:'center',fontSize:12,fontFamily:'MPLUS1-Light'},
   
 })
